@@ -24,9 +24,9 @@ public class RobotConstants {
         public static   String[] COLOUR_SENSORS = {"LeftColourSensor", "MidColourSensor", "RightColourSensor"};
         // Motor names in hardware configuration
         public static   String FRONT_LEFT_MOTOR = "frontLeft";
-        public static   String FRONT_RIGHT_MOTOR = "frontRight";
-        public static   String BACK_LEFT_MOTOR = "backLeft";
         public static   String BACK_RIGHT_MOTOR = "backRight";
+        public static   String BACK_LEFT_MOTOR = "backLeft";
+        public static   String FRONT_RIGHT_MOTOR = "frontRight";
         public static   String INTAKE_MOTOR = "Intake Motor";
         public static   String[] SNAP = {"Snap Motor", "Snap Hood", "Snap feeder", "F", COLOUR_SENSORS[0], "T"};
         public static   String[] CRACKLE = {"Crackle Motor", "Crackle Hood", "Crackle feeder", "F", COLOUR_SENSORS[1], "F"};
@@ -57,14 +57,16 @@ public class RobotConstants {
         //Mechanum thing
         public static MecanumConstants driveConstants = new MecanumConstants()
                 .maxPower(1)
-                .rightFrontMotorName(RobotConstants.Hardware.FRONT_RIGHT_MOTOR)
-                .rightRearMotorName(RobotConstants.Hardware.BACK_RIGHT_MOTOR)
-                .leftRearMotorName(RobotConstants.Hardware.BACK_LEFT_MOTOR)
-                .leftFrontMotorName(RobotConstants.Hardware.FRONT_LEFT_MOTOR)
+                .rightFrontMotorName(Hardware.FRONT_RIGHT_MOTOR)
+                .rightRearMotorName(Hardware.BACK_RIGHT_MOTOR)
+                .leftRearMotorName(Hardware.FRONT_LEFT_MOTOR)
+                .leftFrontMotorName(Hardware.BACK_LEFT_MOTOR)
                 .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-                .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+                .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD).
+                xVelocity(Pedro.X_VELOCITY).
+                yVelocity(Pedro.Y_VELOCITY);
     }
 
     // === PHYSICAL ROBOT DIMENSIONS ===
@@ -86,7 +88,7 @@ public class RobotConstants {
         public static   double TICKS_PER_INCH = Hardware.MOTOR_TICKS_PER_REV / WHEEL_CIRCUMFERENCE;
 
         // Robot mass and inertia (for advanced control)
-        public static   double ROBOT_MASS = 15.0;        // kg
+        public static   double ROBOT_MASS = 80.331-66.996;        // kg
         public static   double INERTIA_TENSOR = 10.0;    // kg*m^2
     }
 
@@ -94,9 +96,9 @@ public class RobotConstants {
     @Configurable
     public static   class OTOS {
         // OTOS sensor offset from robot center (inches)
-        // Positive X is forward, positive Y is left, positive heading is CCW
-        public static   double X_OFFSET = 0.0;
-        public static   double Y_OFFSET = 0.0;
+        // Positive Y is forward, positive X is left, positive heading is CCW
+        public static   double X_OFFSET = 4.4090354331;
+        public static   double Y_OFFSET = -4.19055118;
         public static   double H_OFFSET = 0.0; // degrees
 
         // OTOS scaling factors - TUNE THESE DURING CALIBRATION
@@ -129,7 +131,8 @@ public class RobotConstants {
         public static   double HEADING_PID_KD = 0.1;         // Rotational damping
 
         // === ADVANCED TUNING PARAMETERS ===
-
+        public static double X_VELOCITY = 62.92147899237206;
+        public static double Y_VELOCITY = 47.231358805979326;
         // Drive vector scaling - Controls path following aggression
         public static   double DRIVE_VECTOR_SCALAR = 1.0;    // Overall drive strength multiplier
 
@@ -172,11 +175,11 @@ public class RobotConstants {
         //Setpoints
         public static   double INTAKE_X_ANGLE_CHASSIS = 0d;
         public static   double INTAKE_Y_ANGLE_CHASSIS = 0d;
-        public static   double SHOOTER_INTAKE_SPEED = -0.3;
+        public static   double SHOOTER_INTAKE_SPEED = -0.5;
         public static   double INTAKE_SPEED = -1;
         public static double FEED = 0.2;
         public static double STOW_FEEDER = 0;
-        public static double INTAKE_FEEDER = 0.1;
+        public static double INTAKE_FEEDER = 0.12;
 
         //Timers
         public static long SHOOTER_TIMER = 500;
@@ -190,7 +193,7 @@ public class RobotConstants {
         public static   double INTAKE_MIN = 100;
         public static double CLOSE_SHOT_THRESHOLD = 1;
         public static double CLOSE_SHOT_TELEOP = 1435;
-        public static double CLOSE_SHOT_AUTO = 1535;
+        public static double CLOSE_SHOT_AUTO = 1435;
         public static double VERY_CLOSE_SHOT = 500;
         public static double FAR_SHOT = 1930;
         public static   double WHITE_THRESHOLD = 20;
@@ -271,7 +274,7 @@ public class RobotConstants {
     @Configurable
     public static class BlueAuto {
         public static long END_AUTO_TIME = 28000;
-        public static long AUTO_TIME = 1200;
+        public static long AUTO_TIME = 750;
         public static Pose BLUE_SECOND_INTAKE_POSE = new Pose(-3.3,-2.5, 20);
         public static Pose BLUE_FIRST_INTAKE_POSE = new Pose(-2.7,-2.6, 30);
         public static Pose BLUE_FAR_INTAKE = new Pose(-3.8, -2.5, 0);
@@ -296,19 +299,19 @@ public class RobotConstants {
         public static   double CALIBRATION_ANGLE = 360.0;      // degrees for rotation test
 
         //PID coefficients
-        public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {-0.027, -0.0017, -0.0007};
+        public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {-0.02, -0.0017, -0.0007};
 
         public static double[] SHOOTER_PIDF_COEFFICIENTS = {0.0023, 0.0075, 0.0005, 0.000435};
         public static   double[] CHASSIS_PID_COEFFICIENTS_POINT_AUTO = {-0.032, -0.00185, -0.0007};
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
         public static   double [] CHASSIS_TOLERANCE = {0.12, 1.55};
-        public static double[] SHOOTER_TOLERANCE = {50  ,10};
+        public static double[] SHOOTER_TOLERANCE = {35  ,70};
 
         //Other coefficients
         public static double POINT_AT_AT_TARGET = 0;
         public static double POINT_AT_AT_TARGET_AUTO = 0;
-        public static   double TA_TO_ANGLE = 0.04;
+        public static   double TA_TO_ANGLE = 0.037;
         public static double MAX_ANGLE = 0.15;
         public static double MIN_ANGLE = 0;
     }

@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode.CompCode;
+
+package org.firstinspires.ftc.teamcode.TestCode;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -23,8 +24,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LLsubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
 
-@TeleOp(group = "Comp", name = "BLUE 1/3 of Celestia")
-public class TeleopOneShooterBlue extends CommandOpMode {
+@TeleOp(group = "Comp", name = "RED 1/3 of Celestia")
+public class TeleopOneShooterRed extends CommandOpMode {
     LLsubsystem limelight;
     ShooterSubsystem snap;
     ChassisSubsystem chassis;
@@ -35,6 +36,7 @@ public class TeleopOneShooterBlue extends CommandOpMode {
     TelemetryManager telemetryM;
     RevUpToShoot revShoot;
     VoltageSensor voltage;
+
     OI oi;
 
     @Override
@@ -50,8 +52,8 @@ public class TeleopOneShooterBlue extends CommandOpMode {
         snapDefault = new ShooterDefaultCommand(snap);
         revShoot = new RevUpToShoot(snap);
         voltage = hardwareMap.get(VoltageSensor.class, "Control Hub");
-        chassis.initBlue();
 
+        chassis.initRed();
 
         register(snap, chassis);
         schedule(snapDefault, chassisDefault);

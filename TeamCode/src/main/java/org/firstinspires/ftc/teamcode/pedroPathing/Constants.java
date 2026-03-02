@@ -15,12 +15,17 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(15);
+    public static FollowerConstants followerConstants = new FollowerConstants().
+            mass(RobotConstants.Physical.ROBOT_MASS).
+            forwardZeroPowerAcceleration(-137.2133149791952).
+            lateralZeroPowerAcceleration(-70.46554005800905).
+            useSecondaryDrivePIDF(true).useSecondaryTranslationalPIDF(true).
+            useSecondaryHeadingPIDF(true);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
     public static OTOSConstants localizerConstants = new OTOSConstants()
             .hardwareMapName(RobotConstants.Hardware.OTOS_SENSOR)
-            .offset(new SparkFunOTOS.Pose2D(2, 0, 90))
+            .offset(new SparkFunOTOS.Pose2D(RobotConstants.OTOS.Y_OFFSET, RobotConstants.OTOS.X_OFFSET, -90))
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.DEGREES);
     public static Follower createFollower(HardwareMap hardwareMap) {

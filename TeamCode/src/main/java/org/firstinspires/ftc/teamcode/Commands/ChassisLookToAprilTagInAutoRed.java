@@ -40,9 +40,9 @@ public class ChassisLookToAprilTagInAutoRed extends CommandBase {
         if(limer.getLLResults().isValid()) {
             double speed = RobotConstants.clamp(hPID.calculate(limer.getLLResults().getTx()), -1, 1);
             telemetryManager.addData("Chassis h Speed", speed);
-            chassisSubsystem.driveRobotOriented(0, 0, speed);
+            chassisSubsystem.driveRobotOriented(0, -speed, 0);
         }else{
-            chassisSubsystem.driveRobotOriented(0,0, 0.1);
+            chassisSubsystem.driveRobotOriented(0,-0.2, 0);
         }
     }
 

@@ -27,7 +27,7 @@ public class ChassisAutoMoveUsingTime extends CommandBase {
     @Override
     public void execute() {
         super.execute();
-        chassis.driveRobotOriented(speed[0],speed[1],speed[2]);
+        chassis.driveRobotOriented(speed[0],-speed[2],speed[1]);
         telemetry.addData("Chassis is moving at: ", speed);
     }
 

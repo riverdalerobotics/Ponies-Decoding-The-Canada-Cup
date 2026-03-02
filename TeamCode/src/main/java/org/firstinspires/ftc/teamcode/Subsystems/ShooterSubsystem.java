@@ -26,12 +26,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     TelemetryManager telemetry;
     Limelight3A limelight;
-    RevColorSensorV3 colourSensor;
+//    RevColorSensorV3 colourSensor;
     String[] shooter;
     VoltageSensor voltage;
     PIDFController shooterPID;
     public ShooterSubsystem(HardwareMap hardwareMap, TelemetryManager telemetryM, String[] shooter){
-        colourSensor = hardwareMap.get(RevColorSensorV3.class, shooter[4]);
+//        colourSensor = hardwareMap.get(RevColorSensorV3.class, shooter[4]);
         voltage = hardwareMap.get(VoltageSensor.class, "Control Hub");
         shootMotor = new MotorEx(hardwareMap, shooter[0]);
         hoodServo = hardwareMap.get(Servo.class, shooter[1]);
@@ -129,7 +129,7 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         super.periodic();
-        colour = getColour(rgb(colourSensor));
+//        colour = getColour(rgb(colourSensor));
         telemetry.addData(shooter[0]+"Shooter speed" ,shootMotor.getCorrectedVelocity());
     }
 }

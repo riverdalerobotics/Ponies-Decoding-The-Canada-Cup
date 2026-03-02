@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.RobotConstants;
+import org.firstinspires.ftc.teamcode.Stampede.utility_code.DriveTo;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class ChassisSubsystem extends SubsystemBase {
@@ -55,18 +56,11 @@ public class ChassisSubsystem extends SubsystemBase {
         this.drive = new MecanumDrive(fl, fr, bl, br);
         this.telemetry = telemetry;
         this.follower = Constants.createFollower(hardwareMap);
-        otos.setAngularUnit(AngleUnit.RADIANS);
+        otos.setAngularUnit(AngleUnit.DEGREES);
         otos.setOffset(RobotConstants.Hardware.OTOS_OFFSET);
+
         imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(
-                new IMU.Parameters(
-                        new RevHubOrientationOnRobot(
-                                //TODO: ENSURE THIS IS FIXED PRE COMP
-                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                                RevHubOrientationOnRobot.UsbFacingDirection.UP
-                        )
-                )
-        );
+        otos.setLinearScalar(1);
     }
     public void initBlue(){
         imu.initialize(new IMU.Parameters(
@@ -75,6 +69,7 @@ public class ChassisSubsystem extends SubsystemBase {
                         RevHubOrientationOnRobot.UsbFacingDirection.UP
                 )
         ));
+
 
     }
     public void initRed(){
@@ -88,6 +83,10 @@ public class ChassisSubsystem extends SubsystemBase {
 
     public void resetPos(){
         imu.resetYaw();
+    }
+
+    public SparkFunOTOS getOtos() {
+        return otos;
     }
 
     public YawPitchRollAngles yawPitchRollAngles(){
@@ -118,11 +117,11 @@ public class ChassisSubsystem extends SubsystemBase {
 
 
     public void driveRobotOriented(double strafeSpeed, double forwardSpeed, double turn) {
-        fl = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        fr = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        br = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        bl = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        drive = new MecanumDrive(fl, fr, bl, br);
+//        fl = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        fr = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        br = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        bl = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+        drive = new MecanumDrive(fl, br, bl, fr);
         drive.driveRobotCentric(strafeSpeed, turn, forwardSpeed, false);
 
     }
@@ -133,17 +132,18 @@ public class ChassisSubsystem extends SubsystemBase {
         fr = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
         bl = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
         drive = new MecanumDrive(fl, fr, bl, br);
-        fl.setInverted(false);
-        bl.setInverted(false);
+//        fl.setInverted(false);
+//        bl.setInverted(false);
         drive.driveFieldCentric(strafeSpeed, -forwardSpeed, turn, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES), false);
     }
+
     public void fieldOriented(double strafeSpeed, double forwardSpeed, double turn) {
         //field oriented
         double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // calculated from IMU
-        fl = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        br = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        fr = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        bl = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        fl = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        fr = new MotorEx(hardwareMap, RobotConstants.Hardware.FRONT_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        br = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
+//        bl = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_LEFT_MOTOR, RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
         drive = new MecanumDrive(fl, fr, bl, br);
         fl.setInverted(false);
         bl.setInverted(false);
@@ -178,10 +178,10 @@ public class ChassisSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        super.periodic();
-        currentPos = getPose();
-        follower.update();
-        follower.setPose(currentPos);
+//        super.periodic();
+//        currentPos = getPose();
+//        follower.update();
+//        follower.setPose(currentPos);
     }
 
 }

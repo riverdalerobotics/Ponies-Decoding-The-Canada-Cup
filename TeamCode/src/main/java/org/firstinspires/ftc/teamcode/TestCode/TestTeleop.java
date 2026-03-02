@@ -20,6 +20,7 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.AreShootersRevedCommand;
@@ -70,15 +71,11 @@ public class TestTeleop extends CommandOpMode {
     Button shoot;
     Button lockOn;
     Button spit;
+    SparkFunOTOS otos;
 
 
     @Override
     public void initialize(){
-        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
         telemetry.addLine("Init");
         telemetry.update();
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -128,6 +125,9 @@ public class TestTeleop extends CommandOpMode {
         );
 
         limelight.getLimelight().start();
+        otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+        chassis.initRed();
+
 
     }
 
@@ -201,13 +201,20 @@ public class TestTeleop extends CommandOpMode {
         spit.whileHeld(
                 new SpitCommand(intake)
         );
-        intakeTrigger.whileActiveContinuous(new IntakeCommand(intake, snap, crackle, pop));
+//        intakeTrigger.whileActiveContinuous(new IntakeCommand(intake, snap, crackle, pop));
+        if(gamepad1.left_trigger>0.4&&!gamepad1.x){
+            intake.spinIntake(1);
+        }else if(gamepad1.x){
+
+        }else{
+            intake.spinIntake(0);
+        }
         holdArms.whileActiveContinuous(new ParallelCommandGroup(
                 new IntakeFeeding(snap),
                 new IntakeFeeding(pop)
         ) );
 
-        telemetry.addData("position", chassis.getFollower().getPose());
+        telemetry.addData("position", otos.getPosition());
         telemetry.update();
         telemetryM.update();
     }

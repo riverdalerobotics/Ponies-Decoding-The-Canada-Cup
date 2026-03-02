@@ -23,7 +23,7 @@ public class ChassisDefaultFEILDCommand extends CommandBase {
     @Override
     public void execute() {
         super.execute();
-        chassis.fieldOriented(-gamepad.getLeftX(), -gamepad.getLeftY(), -gamepad.getRightX());
+        chassis.fieldOriented(gamepad.getLeftX(), gamepad.getLeftY(), -gamepad.getRightX());
         telemetry.addLine("Chassis default is running");
 
     }

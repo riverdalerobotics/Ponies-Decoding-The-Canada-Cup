@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
 
 public class ControllerFeedback extends CommandBase {
@@ -29,12 +30,10 @@ public class ControllerFeedback extends CommandBase {
     public void execute() {
         super.execute();
 
-        if(snap.getShooterPID().atSetPoint()&&crackle.getShooterPID().atSetPoint()&&pop.getShooterPID().atSetPoint()){
+        if(Math.abs(snap.getSpeed()-snap.getShooterPID().getSetPoint())< RobotConstants.Tuning.SHOOTER_TOLERANCE[1] &&Math.abs(crackle.getSpeed()-crackle.getShooterPID().getSetPoint())< RobotConstants.Tuning.SHOOTER_TOLERANCE[1]&&Math.abs(pop.getSpeed()-pop.getShooterPID().getSetPoint())< RobotConstants.Tuning.SHOOTER_TOLERANCE[1]){
             driver.gamepad.rumble(800);
             driver.gamepad.setLedColor(0, 1, 0, 1000);
             telemetry.addLine("YAYAYAYA");
-        }else{
-            driver.gamepad.stopRumble();
         }
     }
 

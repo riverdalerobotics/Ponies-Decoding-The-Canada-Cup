@@ -10,18 +10,18 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     Motor intakeMotor;
-    RevColorSensorV3 leftColourSensor, rightColourSensor, midColourSensor;
+//    RevColorSensorV3 leftColourSensor, rightColourSensor, midColourSensor;
     TelemetryManager telemetry;
     public IntakeSubsystem(HardwareMap hardwareMap, TelemetryManager telemetryManager){
         intakeMotor = new Motor(hardwareMap, RobotConstants.Hardware.INTAKE_MOTOR, RobotConstants.Hardware.INTAKE_MOTOR_TYPE);
-        leftColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[0]);
-        midColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[1]);
-        rightColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[2]);
+//        leftColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[0]);
+//        midColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[1]);
+//        rightColourSensor = hardwareMap.get(RevColorSensorV3.class, RobotConstants.Hardware.COLOUR_SENSORS[2]);
         this.telemetry = telemetryManager;
     }
-    public char[] whatBallsDoWeHave(){
-        return new char[]{getColour(rgb(leftColourSensor)), getColour(rgb(midColourSensor)), getColour(rgb(rightColourSensor))};
-    }
+//    public char[] whatBallsDoWeHave(){
+//        return new char[]{getColour(rgb(leftColourSensor)), getColour(rgb(midColourSensor)), getColour(rgb(rightColourSensor))};
+//    }
     public double[] rgb(RevColorSensorV3 colour){
         return new double[]{colour.red(), colour.green(), colour.blue()};
     }
