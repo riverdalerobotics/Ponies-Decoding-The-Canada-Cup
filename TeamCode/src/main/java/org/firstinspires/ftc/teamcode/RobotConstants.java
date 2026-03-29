@@ -6,6 +6,7 @@ import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 
 /**
@@ -303,6 +304,7 @@ public class RobotConstants {
         public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {-0.02, -0.0017, -0.0007};
 
         public static double[] SHOOTER_PIDF_COEFFICIENTS = {0.0023, 0.0075, 0.0005, 0.000435};
+        public static PIDFCoefficients SHOOTER_COEFFICIENTS = new PIDFCoefficients(0.0023, 0.0075, 0.0005, 0.000435);
         public static   double[] CHASSIS_PID_COEFFICIENTS_POINT_AUTO = {-0.032, -0.00185, -0.0007};
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
@@ -313,6 +315,7 @@ public class RobotConstants {
         public static double POINT_AT_AT_TARGET = 0;
         public static double POINT_AT_AT_TARGET_AUTO = 0;
         public static   double TA_TO_ANGLE = 0.037;
+        public static double TA_TO_SPEED = 0d;
         public static double MAX_ANGLE = 0.15;
         public static double MIN_ANGLE = 0;
     }
