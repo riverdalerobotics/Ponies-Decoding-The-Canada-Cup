@@ -15,8 +15,8 @@ public class FieldDefaultCommand extends CommandBase {
     /**
      *
      * @param chassisSubsystem drive subsystem
-     * @param telemetryManager telemetry yea
-     * @param gamepadEx gg
+     * @param telemetryManager telemetry
+     * @param gamepadEx control pad
      */
 
     public FieldDefaultCommand(ChassisSubsystem chassisSubsystem, TelemetryManager telemetryManager,
@@ -29,6 +29,7 @@ public class FieldDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
+        super.execute();
         chassisSubsystem.fieldOriented(
                 gamepadEx.getLeftX(),
                 gamepadEx.getLeftY(),
