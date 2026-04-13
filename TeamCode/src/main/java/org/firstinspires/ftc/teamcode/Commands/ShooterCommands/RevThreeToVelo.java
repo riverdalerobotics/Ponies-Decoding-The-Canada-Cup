@@ -54,6 +54,9 @@ public class RevThreeToVelo extends CommandBase {
     public void execute() {
         super.execute();
         if(limelight.getLimelightResult().isValid()){
+            snap.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
+            crackle.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
+            pop.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             snapPID.setSetPoint(limelight.getShooterSpeedUsingLL());
             cracklePID.setSetPoint(limelight.getShooterSpeedUsingLL());
             popPID.setSetPoint(limelight.getShooterSpeedUsingLL());
@@ -69,6 +72,6 @@ public class RevThreeToVelo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return autoStop&& snapPID.atSetPoint() && cracklePID.atSetPoint() && popPID.atSetPoint();
+        return autoStop && snapPID.atSetPoint() && cracklePID.atSetPoint() && popPID.atSetPoint();
     }
 }
