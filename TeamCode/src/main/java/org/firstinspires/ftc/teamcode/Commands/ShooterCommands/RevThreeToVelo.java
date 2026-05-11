@@ -17,6 +17,7 @@ public class RevThreeToVelo extends CommandBase {
         this.snap = snap;
         this.crackle = crackle;
         this.pop = pop;
+        this.limelight = limelight;
         addRequirements(snap, crackle, pop);
         snapPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
         cracklePID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);

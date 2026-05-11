@@ -12,6 +12,7 @@ public class ShooterDefaultCommand extends CommandBase {
     public ShooterDefaultCommand(ShooterSubsystem shooter, LimelightSubsystem limelight){
         this.shooter = shooter;
         this.limelight = limelight;
+        addRequirements(shooter);
     }
 
     @Override

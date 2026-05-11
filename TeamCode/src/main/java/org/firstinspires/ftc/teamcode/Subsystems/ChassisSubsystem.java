@@ -29,7 +29,7 @@ public class ChassisSubsystem extends SubsystemBase {
     IMU imu;
     MecanumDrive drive;
     LLResult LLresults;
-    Follower follower;
+//    Follower follower;
 
     public ChassisSubsystem(HardwareMap hardwareMap){
         this.hardwareMap = hardwareMap;
@@ -54,7 +54,7 @@ public class ChassisSubsystem extends SubsystemBase {
         otos.setAngularUnit(AngleUnit.DEGREES);
         imu = hardwareMap.get(IMU.class, "imu");
 
-        this.follower = Constants.createFollower(hardwareMap);
+//        this.follower = Constants.createFollower(hardwareMap);
 
         PIDchassis = new PIDController(
                 RobotConstants.Tuning.CHASSIS_TURN_PID_COEFFICIENTS[0],
@@ -94,12 +94,11 @@ public class ChassisSubsystem extends SubsystemBase {
     public void fieldOriented(double strafeSpeed, double forwardSpeed, double turn) {
         double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // calculated from IMU
         drive = new MecanumDrive(fl, fr, bl, br);
-        fl.setInverted(false);
-        bl.setInverted(false);
-
-        double rotX = (strafeSpeed * Math.cos(yaw)) + (forwardSpeed * Math.sin(yaw));
-        double rotY = (strafeSpeed * Math.sin(yaw)) - (forwardSpeed * Math.cos(yaw));
-        drive.driveRobotCentric(rotX, rotY, turn, false);
+        drive.driveFieldCentric(strafeSpeed, forwardSpeed, turn, yaw);
+//
+//        double rotX = (strafeSpeed * Math.cos(yaw)) + (forwardSpeed * Math.sin(yaw));
+//        double rotY = (strafeSpeed * Math.sin(yaw)) - (forwardSpeed * Math.cos(yaw));
+//        drive.driveRobotCentric(rotX, rotY, turn, false);
 
     }
 

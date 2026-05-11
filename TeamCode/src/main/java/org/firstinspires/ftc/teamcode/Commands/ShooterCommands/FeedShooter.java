@@ -16,6 +16,9 @@ public class FeedShooter extends CommandBase {
     @Override
     public void initialize() {
         super.initialize();
+        shooter.feedShoot();
 
     }
+
+
 }
