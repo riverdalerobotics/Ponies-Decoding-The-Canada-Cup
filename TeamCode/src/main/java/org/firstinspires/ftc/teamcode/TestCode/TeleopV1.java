@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Commands.ControllerFeedback;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.LiftIntakeArms;
+import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ResetShooterFeed;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVelo;
@@ -46,7 +47,7 @@ public class TeleopV1 extends CommandOpMode {
 
     GamepadEx driver;
     TelemetryManager telemetryM;
-    Button shoot, rev, lockOn, intakeButton, spinMotor, resetYaw;
+    Button shoot, rev, lockOn, spitButton, spinMotor, resetYaw;
     Trigger intakeTrigger, holdArms;
 
     @Override
@@ -80,13 +81,14 @@ public class TeleopV1 extends CommandOpMode {
         lockOn = new GamepadButton(driver, GamepadKeys.Button.LEFT_BUMPER);
         rev = new GamepadButton(driver, GamepadKeys.Button.RIGHT_BUMPER);
         shoot = new GamepadButton(driver, GamepadKeys.Button.A);
-        intakeButton = new GamepadButton(driver, GamepadKeys.Button.Y);
+        spitButton = new GamepadButton(driver, GamepadKeys.Button.Y);
         resetYaw = new GamepadButton(driver, GamepadKeys.Button.START);
         chassis.initRed();
 
 
         intakeTrigger = new Trigger(()->new TriggerReader(driver, GamepadKeys.Trigger.LEFT_TRIGGER).isDown());
         holdArms = new Trigger(()->new TriggerReader(driver, GamepadKeys.Trigger.RIGHT_TRIGGER).isDown());
+
 
         rev.whileHeld(
                 new ParallelCommandGroup(
@@ -136,6 +138,10 @@ public class TeleopV1 extends CommandOpMode {
         intakeTrigger.whileActiveContinuous(
                 new IntakeCommand(intake)
         );
+        spitButton.whileHeld(
+                new SpitCommand(intake)
+        );
+
 
     }
 
