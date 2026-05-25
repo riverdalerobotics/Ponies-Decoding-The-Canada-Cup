@@ -18,7 +18,7 @@ public class LimelightSubsystem {
         return limelight;
     }
     public double getShooterSpeedUsingLL(){
-        return getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_SPEED;
+        return Math.sqrt(1/limelight.getLatestResult().getTa())*RobotConstants.Tuning.TA_TO_SPEED;
     }
     public LLResult getLimelightResult(){
         return limelight.getLatestResult();

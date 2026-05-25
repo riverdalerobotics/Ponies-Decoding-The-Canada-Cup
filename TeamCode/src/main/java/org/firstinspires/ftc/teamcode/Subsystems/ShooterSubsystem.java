@@ -13,6 +13,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public Motor shooterMotor;
     public ServoEx hood, lifter;
     public RevColorSensorV3 colourSensor;
+    public double setpoint = RobotConstants.Teleop.FAR_SHOT;
     public ShooterSubsystem(String[] shooter, HardwareMap hardwareMap){
         this.shooterMotor = new Motor(hardwareMap, shooter[0]);
         this.hood = new ServoEx(hardwareMap, shooter[1]);
@@ -57,5 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public void resetFeed()
     {
         lifter.set(RobotConstants.Teleop.STOW_FEEDER);
+    }
+    public void liftArm(){
+        lifter.set(RobotConstants.Teleop.INTAKE_FEEDER);
     }
 }

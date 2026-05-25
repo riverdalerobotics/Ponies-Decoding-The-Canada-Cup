@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -29,6 +30,7 @@ public class ChassisSubsystem extends SubsystemBase {
     IMU imu;
     MecanumDrive drive;
     LLResult LLresults;
+    Follower follower;
 //    Follower follower;
 
     public ChassisSubsystem(HardwareMap hardwareMap){
@@ -42,14 +44,14 @@ public class ChassisSubsystem extends SubsystemBase {
                 RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
         br = new MotorEx(hardwareMap, RobotConstants.Hardware.BACK_RIGHT_MOTOR,
                 RobotConstants.Hardware.DRIVE_MOTOR_TYPE);
-        fl.setInverted(true);
-        bl.setInverted(true);
+//        fl.setInverted(true);
+//        bl.setInverted(true);
         fl.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         this.drive = new MecanumDrive(fl, fr, bl, br);
-
+        follower = Constants.createFollower(hardwareMap);
         otos = hardwareMap.get(SparkFunOTOS.class, RobotConstants.Hardware.OTOS_SENSOR);
         otos.setAngularUnit(AngleUnit.DEGREES);
         imu = hardwareMap.get(IMU.class, "imu");
@@ -60,6 +62,10 @@ public class ChassisSubsystem extends SubsystemBase {
                 RobotConstants.Tuning.CHASSIS_TURN_PID_COEFFICIENTS[0],
                 RobotConstants.Tuning.CHASSIS_TURN_PID_COEFFICIENTS[1],
                 RobotConstants.Tuning.CHASSIS_TURN_PID_COEFFICIENTS[2]);
+    }
+
+    public void resetHeading(){
+        imu.resetYaw();
     }
 
     public void initBlue(){
@@ -79,7 +85,9 @@ public class ChassisSubsystem extends SubsystemBase {
                 )
         ));
     }
-
+    public void setStartPos(Pose startPos){
+        follower.setStartingPose(startPos);
+    }
     public void driveRobotOriented(double strafeSpeed, double forwardSpeed, double turnSpeed){
         drive = new MecanumDrive(fl, fr, bl, br);
         drive.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed);
@@ -92,7 +100,8 @@ public class ChassisSubsystem extends SubsystemBase {
     }
 
     public void fieldOriented(double strafeSpeed, double forwardSpeed, double turn) {
-        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // calculated from IMU
+        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES); // calculated from IMU
+//        double yaw = Math.toDegrees(otos.getPosition().h);
         drive = new MecanumDrive(fl, fr, bl, br);
         drive.driveFieldCentric(strafeSpeed, forwardSpeed, turn, yaw);
 //
@@ -114,7 +123,9 @@ public class ChassisSubsystem extends SubsystemBase {
         }
     }
 
-
+    public Follower getFollower(){
+        return follower;
+    }
     public void stop(){
         drive.stop();
     }

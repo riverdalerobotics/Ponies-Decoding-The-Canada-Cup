@@ -42,9 +42,9 @@ public class ChassisLookToAprilTagTeleOp extends CommandBase {
         super.execute();
         if(limelight.getLimelightResult().isValid()){
             double autoPointSpeed= RobotConstants.clamp(hPID.calculate(limelight.getLimelightResult().getTx()), -1, 1);
-            chassis.fieldOriented(gamepadEx.getLeftX(), -gamepadEx.getLeftY(), autoPointSpeed);
+            chassis.fieldOriented(-gamepadEx.getLeftX(), -gamepadEx.getLeftY(), autoPointSpeed);
         }else{
-            chassis.fieldOriented(gamepadEx.getLeftX(), -gamepadEx.getLeftY(), gamepadEx.getRightX());
+            chassis.fieldOriented(-gamepadEx.getLeftX(), -gamepadEx.getLeftY(), -gamepadEx.getRightX());
         }
     }
 

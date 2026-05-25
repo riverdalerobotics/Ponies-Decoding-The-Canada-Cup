@@ -567,6 +567,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
      */
     @Override
     public void loop() {
+
         if (gamepad1.bWasPressed()) {
             stopRobot();
             requestOpModeStop();
@@ -575,7 +576,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
         follower.update();
         drawCurrentAndHistory();
 
-        Vector heading = new Vector(1.0, follower.getPose().getHeading());
+        Vector heading = new Vector(1.0, follower.getPose().getX());
         if (!end) {
             if (!stopping) {
                 if (follower.getVelocity().dot(heading) > VELOCITY) {
@@ -583,7 +584,10 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
                     previousTimeNano = System.nanoTime();
                     stopping = true;
                     follower.setTeleOpDrive(0,0,0,true);
+                    telemetry.addData("Speed", follower.getVelocity().dot(heading));
+                    telemetry.update();
                 }
+
             } else {
                 double currentVelocity = follower.getVelocity().dot(heading);
                 accelerations.add((currentVelocity - previousVelocity) / ((System.nanoTime() - previousTimeNano) / Math.pow(10.0, 9)));
@@ -629,7 +633,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
  * @author Baron Henderson - 20077 The Indubitables
  * @version 1.0, 3/13/2024
  */
-class LateralZeroPowerAccelerationTuner extends OpMode {
+class   LateralZeroPowerAccelerationTuner extends OpMode {
     private final ArrayList<Double> accelerations = new ArrayList<>();
     public static double VELOCITY = 30;
     private double previousVelocity;
@@ -861,7 +865,7 @@ class HeadingTuner extends OpMode {
 class DriveTuner extends OpMode {
     public static double DISTANCE = 40;
     private boolean forward = true;
-
+    private boolean move = true;
     private PathChain forwards;
     private PathChain backwards;
 
@@ -910,8 +914,14 @@ class DriveTuner extends OpMode {
     public void loop() {
         follower.update();
         drawCurrentAndHistory();
-
-        if (!follower.isBusy()) {
+        if(gamepad1.b){
+            follower.pausePathFollowing();
+            move = false;
+        }
+        if (gamepad1.a) {
+            move = true;
+        }
+        if (!follower.isBusy() && move) {
             if (forward) {
                 forward = false;
                 follower.followPath(backwards);
@@ -922,6 +932,7 @@ class DriveTuner extends OpMode {
         }
 
         telemetryM.debug("Driving forward?: " + forward);
+        telemetryM.debug("Pos" + follower.getPose());
         telemetryM.update(telemetry);
     }
 }
@@ -984,6 +995,7 @@ class Line extends OpMode {
         }
 
         telemetryM.debug("Driving Forward?: " + forward);
+        telemetryM.debug("Pos "+ follower.getPose());
         telemetryM.update(telemetry);
     }
 }

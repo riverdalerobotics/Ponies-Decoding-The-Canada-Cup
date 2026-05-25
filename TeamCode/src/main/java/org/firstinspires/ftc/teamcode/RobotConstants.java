@@ -302,7 +302,7 @@ public class RobotConstants {
         public static   double CALIBRATION_ANGLE = 360.0;      // degrees for rotation test
 
         //PID coefficients
-        public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {-0.02, -0.0017, -0.0007};
+        public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {0.02, 0.0017, 0.0007};
 
         public static double[] SHOOTER_PIDF_COEFFICIENTS = {0.0023, 0.0075, 0.0005, 0.000435};
         public static PIDFCoefficients SHOOTER_COEFFICIENTS = new PIDFCoefficients(0.0023, 0.0075, 0.0005, 0.000435);

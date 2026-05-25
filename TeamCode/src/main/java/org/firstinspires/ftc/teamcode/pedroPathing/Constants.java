@@ -1,19 +1,57 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
+import com.pedropathing.ftc.drivetrains.MecanumConstants;
+import com.pedropathing.ftc.localization.constants.OTOSConstants;
 import com.pedropathing.paths.PathConstraints;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.RobotConstants;
+
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants();
-
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
-
+    public static FollowerConstants followerConstants = new FollowerConstants().
+            mass(13.335).
+            headingPIDFCoefficients(new PIDFCoefficients(1, 0.0001, 0.01, 0)).
+            forwardZeroPowerAcceleration(-659.5692806276545).
+            lateralZeroPowerAcceleration(-0.48801899326893067).
+            translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0.0006, 0.01, 0))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.0004, 0, 0.00001, 0.0006, 0.01))
+            ;
+    public static OTOSConstants localizerConstants = new OTOSConstants()
+            .hardwareMapName(RobotConstants.Hardware.OTOS_SENSOR)
+            .offset(new SparkFunOTOS.Pose2D(3, 3.6, Math.toRadians(
+                    -90)))
+            .linearUnit(DistanceUnit.INCH)
+            .angleUnit(AngleUnit.RADIANS)
+            .linearScalar(-1.0469272955974842)
+            .angularScalar(0.9914974734485172);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 5, 1);
+    public static MecanumConstants driveConstants = new MecanumConstants()
+            .maxPower(1)
+            .rightFrontMotorName(RobotConstants.Hardware.FRONT_RIGHT_MOTOR)
+            .rightRearMotorName(RobotConstants.Hardware.BACK_RIGHT_MOTOR)
+            .leftRearMotorName(RobotConstants.Hardware.BACK_LEFT_MOTOR)
+            .leftFrontMotorName(RobotConstants.Hardware.FRONT_LEFT_MOTOR)
+            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .xVelocity(RobotConstants.Pedro.X_VELOCITY)
+            .yVelocity(RobotConstants.Pedro.Y_VELOCITY);
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
+                .OTOSLocalizer(localizerConstants)
                 .pathConstraints(pathConstraints)
+                .mecanumDrivetrain(driveConstants)
                 .build();
     }
 }

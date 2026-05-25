@@ -40,35 +40,46 @@ public class RevThreeToVelo extends CommandBase {
         snapPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
         cracklePID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
         popPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
+        double setpoint = RobotConstants.Teleop.CLOSE_SHOT_TELEOP;
         if(limelight.getLimelightResult().isValid()){
-            snapPID.setSetPoint(limelight.getShooterSpeedUsingLL());
-            cracklePID.setSetPoint(limelight.getShooterSpeedUsingLL());
-            popPID.setSetPoint(limelight.getShooterSpeedUsingLL());
-        }else{
-            snapPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-            cracklePID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-            popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+            if(limelight.getLimelightResult().getTa()<RobotConstants.Teleop.CLOSE_SHOT_THRESHOLD){
+                setpoint = RobotConstants.Teleop.FAR_SHOT;
+            }else{
+                setpoint = RobotConstants.Teleop.CLOSE_SHOT_TELEOP;
+            }
+
         }
+        snapPID.setSetPoint(setpoint);
+        cracklePID.setSetPoint(setpoint);
+        popPID.setSetPoint(setpoint);
     }
 
     @Override
     public void execute() {
         super.execute();
+        snapPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+        cracklePID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+        popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+        double setpoint = RobotConstants.Teleop.FAR_SHOT;
         if(limelight.getLimelightResult().isValid()){
             snap.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             crackle.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             pop.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
-            snapPID.setSetPoint(limelight.getShooterSpeedUsingLL());
-            cracklePID.setSetPoint(limelight.getShooterSpeedUsingLL());
-            popPID.setSetPoint(limelight.getShooterSpeedUsingLL());
-        }else{
-            snapPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-            cracklePID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-            popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+            if(limelight.getLimelightResult().getTa()<RobotConstants.Teleop.CLOSE_SHOT_THRESHOLD){
+                setpoint = RobotConstants.Teleop.FAR_SHOT;
+            }else{
+                setpoint = RobotConstants.Teleop.CLOSE_SHOT_TELEOP;
+            }
         }
+        snapPID.setSetPoint(setpoint);
+        cracklePID.setSetPoint(setpoint);
+        popPID.setSetPoint(setpoint);
         snap.setShooterMotor(RobotConstants.clamp(snapPID.calculate(snap.getSpeed()), 0, 1));
-        crackle.setShooterMotor(RobotConstants.clamp(cracklePID.calculate(snap.getSpeed()), 0, 1));
-        pop.setShooterMotor(RobotConstants.clamp(popPID.calculate(snap.getSpeed()), 0, 1));
+        snap.setpoint = setpoint;
+        crackle.setShooterMotor(RobotConstants.clamp(cracklePID.calculate(crackle.getSpeed()), 0, 1));
+        crackle.setpoint = setpoint;
+        pop.setShooterMotor(RobotConstants.clamp(popPID.calculate(pop.getSpeed()), 0, 1));
+        pop.setpoint = setpoint;
     }
 
     @Override

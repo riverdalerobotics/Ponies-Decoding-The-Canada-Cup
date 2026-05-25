@@ -65,4 +65,9 @@ public class PedroAutoTest extends CommandOpMode{
         );
     }
 
+    @Override
+    public void run() {
+        super.run();
+        follower.update();
+    }
 }

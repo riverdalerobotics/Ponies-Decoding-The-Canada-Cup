@@ -31,8 +31,8 @@ public class FieldDefaultCommand extends CommandBase {
     public void execute() {
         super.execute();
         chassisSubsystem.fieldOriented(
-                gamepadEx.getLeftX(),
-                gamepadEx.getLeftY(),
+                -gamepadEx.getLeftX(),
+                -gamepadEx.getLeftY(),
                 -gamepadEx.getRightX());
     }
 
