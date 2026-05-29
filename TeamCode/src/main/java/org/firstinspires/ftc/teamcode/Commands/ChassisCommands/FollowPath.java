@@ -22,13 +22,13 @@ public class FollowPath extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        super.execute();
-        follower.update();
+    public boolean isFinished() {
+        return !follower.isBusy();
     }
 
     @Override
-    public boolean isFinished() {
-        return !follower.isBusy();
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        follower.holdPoint(pathChain.endPose());
     }
 }

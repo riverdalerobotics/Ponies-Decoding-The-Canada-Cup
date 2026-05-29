@@ -10,6 +10,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
+import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
@@ -19,9 +20,12 @@ import com.seattlesolvers.solverslib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FieldDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FollowPath;
+import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeDefaultCommand;
+import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.LiftIntakeArms;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVelo;
+import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RunNoPIDF;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
@@ -40,6 +44,7 @@ public class TestAuto extends CommandOpMode {
     ShooterDefaultCommand snapDefault, crackleDefault, popDefault;
     IntakeDefaultCommand intakeDefault;
     Paths.Blue12BallPath blue12BallPath;
+    SequentialCommandGroup shootGroup;
     GamepadEx driver;
     Follower follower;
     TelemetryManager telemetryM;
@@ -67,14 +72,22 @@ public class TestAuto extends CommandOpMode {
         intake = new IntakeSubsystem(hardwareMap);
         intakeDefault = new IntakeDefaultCommand(intake);
         intake.setDefaultCommand(intakeDefault);
+        shootGroup = new SequentialCommandGroup(new RevThreeToVelo(snap, crackle, pop, limelight, true),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
+                        new RevThreeToVelo(snap, crackle, pop, limelight),
+                        new FeedShooter(snap),
+                        new FeedShooter(crackle),
+                        new FeedShooter(pop)
 
+                ));
 
 
 
 
 
         schedule(new SequentialCommandGroup(
-                new FollowPath(follower, blue12BallPath.ShootFirstset),
+                new FollowPath(follower, blue12BallPath.ShootFirst3),
                 new RevThreeToVelo(snap, crackle, pop, limelight, true),
                 new ParallelDeadlineGroup(
                         new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
@@ -82,7 +95,49 @@ public class TestAuto extends CommandOpMode {
                         new FeedShooter(snap),
                         new FeedShooter(crackle),
                         new FeedShooter(pop)
-                )
+
+                ),
+                new RunNoPIDF(snap, crackle, pop, 0),
+                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt1),
+
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt2),
+                                new FollowPath(follower, blue12BallPath.Gate)
+                        ),
+                        new LiftIntakeArms(snap),
+                        new LiftIntakeArms(pop),
+                        new IntakeCommand(intake)
+                ),
+
+                new ParallelDeadlineGroup(
+                        new FollowPath(follower, blue12BallPath.ShootSecond3),
+                        new IntakeCommand(intake)
+                        ),
+                new RevThreeToVelo(snap, crackle, pop, limelight, true),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
+                        new RevThreeToVelo(snap, crackle, pop, limelight),
+                        new FeedShooter(snap),
+                        new FeedShooter(crackle),
+                        new FeedShooter(pop)
+                ),
+                new RunNoPIDF(snap, crackle, pop, 0),
+                new ParallelDeadlineGroup(
+
+                    new FollowPath(follower, blue12BallPath.Intake3rdSet),
+                    new IntakeCommand(intake),
+                    new LiftIntakeArms(snap),
+                    new LiftIntakeArms(pop)
+                ),
+                new ParallelDeadlineGroup(
+                        new FollowPath(follower, blue12BallPath.Shoot3rdSet),
+                        new IntakeCommand(intake)
+                ),
+
+                shootGroup
+
+
                 )
                 );
     }
@@ -90,5 +145,9 @@ public class TestAuto extends CommandOpMode {
     @Override
     public void run() {
         super.run();
+        follower.update();
+        telemetryM.addData("SNAP shooter speed", snap.getSpeed());
+        telemetryM.addData("SNAP current command", snap.getCurrentCommand().getName());
+        telemetryM.update(telemetry);
     }
 }

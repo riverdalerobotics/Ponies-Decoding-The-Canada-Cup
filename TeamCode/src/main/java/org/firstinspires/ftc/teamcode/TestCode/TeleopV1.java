@@ -81,7 +81,7 @@ public class TeleopV1 extends CommandOpMode {
         lockOn = new GamepadButton(driver, GamepadKeys.Button.LEFT_BUMPER);
         rev = new GamepadButton(driver, GamepadKeys.Button.RIGHT_BUMPER);
         shoot = new GamepadButton(driver, GamepadKeys.Button.A);
-        spitButton = new GamepadButton(driver, GamepadKeys.Button.Y);
+        spitButton = new GamepadButton(driver, GamepadKeys.Button.X);
         resetYaw = new GamepadButton(driver, GamepadKeys.Button.START);
         chassis.initRed();
 
@@ -101,14 +101,14 @@ public class TeleopV1 extends CommandOpMode {
 
 
         shoot.whenPressed(
-                new ScheduleCommand(
+
                         new ParallelDeadlineGroup(
                                 new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
                                 new FeedShooter(snap),
                                 new FeedShooter(crackle),
                                 new FeedShooter(pop)
                         )
-                )
+
 
         );
 
@@ -119,18 +119,16 @@ public class TeleopV1 extends CommandOpMode {
         );
 
         holdArms.whileActiveContinuous(
-                new ScheduleCommand(
+
                         new ParallelCommandGroup(
                                 new LiftIntakeArms(snap),
                                 new LiftIntakeArms(pop)
                         )
-                )
+
 
         );
 
-        spinMotor.whenPressed(
-                new RunNoPIDF(snap, crackle, pop)
-        );
+
 
         lockOn.whileHeld(
                 new ChassisLookToAprilTagTeleOp(chassis, limelight, telemetryM, driver)

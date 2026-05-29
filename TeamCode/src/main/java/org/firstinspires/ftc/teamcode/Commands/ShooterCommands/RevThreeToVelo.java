@@ -27,6 +27,7 @@ public class RevThreeToVelo extends CommandBase {
         this.snap = snap;
         this.crackle = crackle;
         this.pop = pop;
+        this.limelight = limelight;
         addRequirements(snap, crackle, pop);
         snapPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
         cracklePID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
@@ -37,9 +38,9 @@ public class RevThreeToVelo extends CommandBase {
     @Override
     public void initialize() {
         super.initialize();
-        snapPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
-        cracklePID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
-        popPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[0]);
+        snapPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[1]);
+        cracklePID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[1]);
+        popPID.setTolerance(RobotConstants.Tuning.SHOOTER_TOLERANCE[1]);
         double setpoint = RobotConstants.Teleop.CLOSE_SHOT_TELEOP;
         if(limelight.getLimelightResult().isValid()){
             if(limelight.getLimelightResult().getTa()<RobotConstants.Teleop.CLOSE_SHOT_THRESHOLD){
@@ -80,6 +81,16 @@ public class RevThreeToVelo extends CommandBase {
         crackle.setpoint = setpoint;
         pop.setShooterMotor(RobotConstants.clamp(popPID.calculate(pop.getSpeed()), 0, 1));
         pop.setpoint = setpoint;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+//        if(autoStop){
+//            snap.setShooterMotor(0);
+//            crackle.setShooterMotor(0);
+//            pop.setShooterMotor(0);
+//        }
     }
 
     @Override

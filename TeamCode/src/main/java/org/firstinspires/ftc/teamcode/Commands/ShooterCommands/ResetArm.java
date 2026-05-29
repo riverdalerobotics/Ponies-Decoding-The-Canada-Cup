@@ -5,24 +5,18 @@ import com.seattlesolvers.solverslib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
 
-public class FeedShooter extends CommandBase {
+public class ResetArm extends CommandBase {
     ShooterSubsystem shooter;
     Timing.Timer timer;
-    public FeedShooter(ShooterSubsystem shooter){
+    public ResetArm(ShooterSubsystem shooter){
         this.shooter = shooter;
-
+        addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        shooter.feedShoot();
-
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
         shooter.resetFeed();
+
     }
 }

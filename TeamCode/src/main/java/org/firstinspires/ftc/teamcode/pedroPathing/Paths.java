@@ -9,112 +9,113 @@ import com.pedropathing.paths.PathChain;
 public class Paths {
 
     public static class Blue12BallPath {
-        public PathChain ShootFirstset;
-        public PathChain Intake2ndsetPt1;
-        public PathChain Intake2ndsetPt2;
-        public PathChain Gate;
-        public PathChain Shoot2ndset;
-        public PathChain Intake3rdset;
-        public PathChain Shoot3rdset;
-        public PathChain Intake4thset;
-        public PathChain Shoot4thset;
 
-        public Blue12BallPath(Follower follower) {
-            ShootFirstset = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(19.687, 113.600),
 
-                                    new Pose(40.000, 100.000)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
+            public PathChain ShootFirst3;
+            public PathChain IntakeSecond3Pt1;
+            public PathChain IntakeSecond3Pt2;
+            public PathChain Gate;
+            public PathChain ShootSecond3;
+            public PathChain Intake3rdSet;
+            public PathChain Shoot3rdSet;
+            public PathChain Intake4thSet;
+            public PathChain Shoot4thSet;
 
-                    .build();
+            public Blue12BallPath(Follower follower) {
+                ShootFirst3 = follower.pathBuilder().addPath(
+                                new BezierLine(
+                                        new Pose(15, 109),
 
-            Intake2ndsetPt1 = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(40.000, 100.000),
-                                    new Pose(58.600, 99.252),
-                                    new Pose(40.643, 85.217)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                                        new Pose(36.035, 97.913)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
 
-                    .build();
+                        .build();
 
-            Intake2ndsetPt2 = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(40.643, 85.217),
-                                    new Pose(36.104, 82.226),
-                                    new Pose(13.322, 83.374)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                IntakeSecond3Pt1 = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(36.035, 97.913),
+                                        new Pose(58.600, 99.252),
+                                        new Pose(40.643, 85.217)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
 
-                    .build();
+                        .build();
 
-            Gate = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(13.322, 83.374),
-                                    new Pose(24.465, 74.430),
-                                    new Pose(16.400, 70.461)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
+                IntakeSecond3Pt2 = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(40.643, 85.217),
+                                        new Pose(36.104, 82.226),
+                                        new Pose(15.200, 84.000)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
 
-                    .build();
+                        .build();
 
-            Shoot2ndset = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(16.400, 70.461),
-                                    new Pose(33.330, 78.804),
-                                    new Pose(50.000, 96.000)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
+                Gate = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(15.200, 84.000),
+                                        new Pose(24.465, 74.430),
+                                        new Pose(16.400, 70.461)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
 
-                    .build();
+                        .build();
 
-            Intake3rdset = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(50.000, 96.000),
-                                    new Pose(78.135, 59.974),
-                                    new Pose(11.696, 58.870)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                ShootSecond3 = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(16.400, 70.461),
+                                        new Pose(33.330, 78.804),
+                                        new Pose(50.000, 96.000)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
 
-                    .build();
+                        .build();
 
-            Shoot3rdset = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(11.696, 58.870),
-                                    new Pose(41.630, 69.757),
-                                    new Pose(53.548, 87.652)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
+                Intake3rdSet = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(50.000, 96.000),
+                                        new Pose(78.135, 59.974),
+                                        new Pose(11.696, 58.870)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
 
-                    .build();
+                        .build();
 
-            Intake4thset = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(53.548, 87.652),
-                                    new Pose(89.017, 30.622),
-                                    new Pose(9.948, 34.861)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                Shoot3rdSet = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(11.696, 58.870),
+                                        new Pose(41.630, 69.757),
+                                        new Pose(54.174, 88.904)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
 
-                    .build();
+                        .build();
 
-            Shoot4thset = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(9.948, 34.861),
-                                    new Pose(28.948, 79.865),
-                                    new Pose(53.635, 87.235)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
+                Intake4thSet = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(54.174, 88.904),
+                                        new Pose(89.017, 30.622),
+                                        new Pose(9.948, 34.861)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
 
-                    .build();
-        }
+                        .build();
+
+                Shoot4thSet = follower.pathBuilder().addPath(
+                                new BezierCurve(
+                                        new Pose(9.948, 34.861),
+                                        new Pose(28.948, 79.865),
+                                        new Pose(63.443, 96.417)
+                                )
+                        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
+
+                        .build();
+            }
         public Pose getStartPose(){
-            return new Pose(19.687, 113.600, Math.toRadians(90));
+            return new Pose(15, 109, Math.toRadians(90));
         }
-    }
-
+        }
 
     public static class TestPath {
         public PathChain Path1;
@@ -135,6 +136,10 @@ public class Paths {
 
         }
     }
+    }
 
 
-}
+
+
+
+

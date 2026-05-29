@@ -20,5 +20,9 @@ public class LiftIntakeArms extends CommandBase {
 
     }
 
-
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        shooter.resetFeed();
+    }
 }
