@@ -8,6 +8,80 @@ import com.pedropathing.paths.PathChain;
 
 public class Paths {
 
+    public static class Red12BallPath {
+
+        public PathChain ShootPreload;
+        public PathChain Intake2ndLine;
+        public PathChain Gate;
+        public PathChain Shoot2ndLine;
+        public PathChain Intake1stLine;
+        public PathChain Shoot1stLine;
+
+        public Red12BallPath(Follower follower) {
+            ShootPreload = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(125.000, 113.000), new Pose(105.000, 102.529))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
+                    .build();
+
+            Intake2ndLine = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(105.000, 102.529),
+                                    new Pose(83.294, 84.529),
+                                    new Pose(84.176, 60.000),
+                                    new Pose(126.882, 59.471)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
+                    .build();
+
+            Gate = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(126.882, 59.471),
+                                    new Pose(112.941, 68.647),
+                                    new Pose(127.765, 67.588)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(270))
+                    .build();
+
+            Shoot2ndLine = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(127.765, 67.588),
+                                    new Pose(88.235, 57.176),
+                                    new Pose(77.647, 80.118)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(45))
+                    .build();
+
+            Intake1stLine = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(77.647, 80.118), new Pose(127.588, 83.824))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .build();
+
+            Shoot1stLine = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(127.588, 83.824), new Pose(88.765, 88.765))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    .build();
+        }
+    }
+
+
     public static class Blue12BallPath {
 
 
@@ -137,6 +211,7 @@ public class Paths {
         }
     }
     }
+
 
 
 
