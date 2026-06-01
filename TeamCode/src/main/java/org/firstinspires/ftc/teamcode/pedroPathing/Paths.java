@@ -8,6 +8,22 @@ import com.pedropathing.paths.PathChain;
 
 public class Paths {
 
+    public static class BlueShoot3FarPath {
+        public PathChain TurnToGoal;
+
+        public BlueShoot3FarPath(Follower follower) {
+            TurnToGoal = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(56.000, 8.000),
+                                    new Pose(56.520, 8.010)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+                    .build();
+        }
+    }
+
     public static class Red12BallPath {
 
         public PathChain ShootPreload;
