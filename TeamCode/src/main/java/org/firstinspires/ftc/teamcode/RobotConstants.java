@@ -185,7 +185,7 @@ public class RobotConstants {
         public static double INTAKE_FEEDER = 0.12;
 
         //Timers
-        public static long SHOOTER_TIMER = 500;
+        public static long SHOOTER_TIMER = 200;
         public static long HOLD_THE_ARM = 500;
         public static long DRIVE_FORWARD_AUTO = 1500;
         public static long DRIVE_FORWARD_CLOSE_AUTO = 500;
