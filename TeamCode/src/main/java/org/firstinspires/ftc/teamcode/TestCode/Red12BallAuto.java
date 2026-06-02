@@ -91,7 +91,7 @@ public class Red12BallAuto extends CommandOpMode {
         /// auto
         schedule(new SequentialCommandGroup(
                 //shoots preload
-                new FollowPath(follower, path.ShootPreload),
+                new FollowPath(follower, path.ShootPreLoad),
                 shootGroup,
 
                 //intake far (2nd) line, gate, shoot 2nd line
@@ -120,7 +120,17 @@ public class Red12BallAuto extends CommandOpMode {
                         new IntakeCommand(intake),
                         new RevThreeToVelo(snap, crackle, pop, limelight)
                 ),
-                shootGroup
+                shootGroup,
+
+                new ParallelDeadlineGroup(
+                        new FollowPath(follower, path.Intake3rdLine),
+                        intakeGroup
+                ),
+                new ParallelDeadlineGroup(
+                        new FollowPath(follower, path.Shoot3rdLine),
+                        new IntakeCommand(intake),
+                        new RevThreeToVelo(snap, crackle, pop, limelight)
+                )
 
         ));
     }
