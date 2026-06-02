@@ -64,9 +64,6 @@ public class ChassisSubsystem extends SubsystemBase {
                 RobotConstants.Tuning.CHASSIS_TURN_PID_COEFFICIENTS[2]);
     }
 
-    public void resetHeading(){
-        imu.resetYaw();
-    }
 
     public void initBlue(){
         imu.initialize(new IMU.Parameters(
@@ -100,7 +97,7 @@ public class ChassisSubsystem extends SubsystemBase {
     }
 
     public void fieldOriented(double strafeSpeed, double forwardSpeed, double turn) {
-        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES); // calculated from IMU
+        double yaw = otos.getPosition().h; // calculated from IMU
 //        double yaw = Math.toDegrees(otos.getPosition().h);
         drive = new MecanumDrive(fl, fr, bl, br);
         drive.driveFieldCentric(strafeSpeed, forwardSpeed, turn, yaw);
@@ -122,7 +119,9 @@ public class ChassisSubsystem extends SubsystemBase {
             return null;
         }
     }
-
+    public SparkFunOTOS getOtos(){
+        return otos;
+    }
     public Follower getFollower(){
         return follower;
     }

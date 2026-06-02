@@ -20,6 +20,7 @@ import com.seattlesolvers.solverslib.gamepad.TriggerReader;
 
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.ChassisLookToAprilTagTeleOp;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FieldDefaultCommand;
+import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.ResetYaw;
 import org.firstinspires.ftc.teamcode.Commands.ControllerFeedback;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeDefaultCommand;
@@ -113,9 +114,7 @@ public class TeleopV1 extends CommandOpMode {
         );
 
         resetYaw.whenPressed(
-                new InstantCommand(()->{
-                    chassis.resetHeading();
-                })
+                new ResetYaw(chassis)
         );
 
         holdArms.whileActiveContinuous(
@@ -147,7 +146,8 @@ public class TeleopV1 extends CommandOpMode {
     public void run(){
         CommandScheduler.getInstance().run();
         telemetryM.addData("SNAP shooter speed", snap.getSpeed());
-        telemetryM.update();
+        telemetryM.addData("Yaw", chassis.getOtos().getPosition().h);
+        telemetryM.update(telemetry);
 
     }
 }

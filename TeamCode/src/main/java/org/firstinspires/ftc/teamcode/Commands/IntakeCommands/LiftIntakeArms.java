@@ -10,7 +10,6 @@ public class LiftIntakeArms extends CommandBase {
     Timing.Timer timer;
     public LiftIntakeArms(ShooterSubsystem shooter){
         this.shooter = shooter;
-        addRequirements(shooter);
     }
 
     @Override

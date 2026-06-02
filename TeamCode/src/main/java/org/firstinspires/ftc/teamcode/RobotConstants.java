@@ -195,7 +195,7 @@ public class RobotConstants {
         public static   double[] WHITE_RGB = {0, 0, 0};
         public static   double INTAKE_MIN = 100;
         public static double CLOSE_SHOT_THRESHOLD = 1;
-        public static double CLOSE_SHOT_TELEOP = 1435;
+        public static double CLOSE_SHOT_TELEOP = 1490;
         public static double CLOSE_SHOT_AUTO = 1435;
         public static double VERY_CLOSE_SHOT = 500;
         public static double FAR_SHOT = 1930;
@@ -310,12 +310,12 @@ public class RobotConstants {
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
         public static   double [] CHASSIS_TOLERANCE = {0.12, 1.55};
-        public static double[] SHOOTER_TOLERANCE = {35  ,70};
+        public static double[] SHOOTER_TOLERANCE = {35, 25};
 
         //Other coefficients
         public static double POINT_AT_AT_TARGET = 0;
         public static double POINT_AT_AT_TARGET_AUTO = 0;
-        public static   double TA_TO_ANGLE = 0.037;
+        public static   double TA_TO_ANGLE = 0.035;
         public static double TA_TO_SPEED = 0d;
         public static double MAX_ANGLE = 0.15;
         public static double MIN_ANGLE = 0;
