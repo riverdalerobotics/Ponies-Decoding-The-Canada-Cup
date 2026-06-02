@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.TestCode;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -12,6 +13,7 @@ import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FieldDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FollowPath;
@@ -45,10 +47,14 @@ public class Red12BallAuto extends CommandOpMode {
     SequentialCommandGroup shootGroup;
     ParallelCommandGroup intakeGroup;
 
+    Pose startPose;
+
     @Override
     public void initialize() {
+        startPose = new Pose(125, 113, Math.toRadians(90)); ///Ill move this later
         follower = Constants.createFollower(hardwareMap);
         path = new Paths.Red12BallPath(follower);
+        follower.setStartingPose(startPose);
 
         limelight = new LimelightSubsystem(hardwareMap);
 
@@ -82,11 +88,11 @@ public class Red12BallAuto extends CommandOpMode {
 
         );
 
-        intakeGroup = new ParallelCommandGroup(
-                new LiftIntakeArms(snap),
-                new LiftIntakeArms(pop),
-                new IntakeCommand(intake)
-        );
+//        intakeGroup = new ParallelCommandGroup(
+//                new LiftIntakeArms(snap),
+//                new LiftIntakeArms(pop),
+//                new IntakeCommand(intake)
+//        );
 
         /// auto
         schedule(new SequentialCommandGroup(
@@ -100,7 +106,11 @@ public class Red12BallAuto extends CommandOpMode {
                                 new FollowPath(follower, path.Intake2ndLine),
                                 new FollowPath(follower, path.Gate)
                                 ),
-                        intakeGroup
+                        new ParallelCommandGroup(
+                                new LiftIntakeArms(snap),
+                                new LiftIntakeArms(pop),
+                                new IntakeCommand(intake)
+                        )
 
                 ),
                 new ParallelDeadlineGroup(
@@ -113,7 +123,12 @@ public class Red12BallAuto extends CommandOpMode {
                 //intake close (1st) line, shoot 1st line
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Intake1stLine),
-                        intakeGroup
+                        new ParallelCommandGroup(
+                                new LiftIntakeArms(snap),
+                                new LiftIntakeArms(pop),
+                                new IntakeCommand(intake)
+                        )
+
                 ),
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Shoot1stLine),
@@ -124,7 +139,12 @@ public class Red12BallAuto extends CommandOpMode {
 
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Intake3rdLine),
-                        intakeGroup
+                        new ParallelCommandGroup(
+                                new LiftIntakeArms(snap),
+                                new LiftIntakeArms(pop),
+                                new IntakeCommand(intake)
+                        )
+                        //intakeGroup
                 ),
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Shoot3rdLine),
