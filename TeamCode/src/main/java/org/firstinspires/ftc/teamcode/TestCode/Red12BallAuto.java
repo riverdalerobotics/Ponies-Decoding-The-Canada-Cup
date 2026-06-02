@@ -150,7 +150,8 @@ public class Red12BallAuto extends CommandOpMode {
                         new FollowPath(follower, path.Shoot3rdLine),
                         new IntakeCommand(intake),
                         new RevThreeToVelo(snap, crackle, pop, limelight)
-                )
+                ),
+                shootGroup
 
         ));
     }
