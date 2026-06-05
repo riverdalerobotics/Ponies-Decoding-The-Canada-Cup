@@ -54,7 +54,7 @@ public class Red12BallAuto extends CommandOpMode {
         startPose = new Pose(125, 113, Math.toRadians(90)); ///Ill move this later
         follower = Constants.createFollower(hardwareMap);
         path = new Paths.Red12BallPath(follower);
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(path.getStartPos());
 
         limelight = new LimelightSubsystem(hardwareMap);
 
@@ -87,7 +87,7 @@ public class Red12BallAuto extends CommandOpMode {
                 new RunNoPIDF(snap, crackle, pop, 0)
 
         );
-
+        follower.setMaxPower(1);
         /// auto
         schedule(new SequentialCommandGroup(
                 //shoots preload
@@ -99,10 +99,8 @@ public class Red12BallAuto extends CommandOpMode {
 
                 //intake far (2nd) line, gate, shoot 2nd line
                 new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
-                                new FollowPath(follower, path.Intake2ndLine),
-                                new FollowPath(follower, path.Gate)
-                                ),
+
+                        new FollowPath(follower, path.Intake2ndLine),
                         new ParallelCommandGroup(
                                 new LiftIntakeArms(snap),
                                 new LiftIntakeArms(pop),
@@ -110,6 +108,7 @@ public class Red12BallAuto extends CommandOpMode {
                         )
 
                 ),
+                new FollowPath(follower, path.Gate),
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Shoot2ndLine),
                         new IntakeCommand(intake),
@@ -149,19 +148,7 @@ public class Red12BallAuto extends CommandOpMode {
                         new RevThreeToVelo(snap, crackle, pop, limelight)
                 ),
                 shootGroup,
-                new FollowPath(follower, path.Gate2),
-                new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
-                                new FollowPath(follower, path.IntakeFromGate),
-                                new WaitCommand(1000)
-                                ),
-                        new IntakeCommand(intake)
-                ),
-                new ParallelDeadlineGroup(
-                        new FollowPath(follower, path.ShootGate),
-                        new RevThreeToVelo(snap, crackle, pop, limelight)
-                ),
-                shootGroup
+                new FollowPath(follower, path.GoToGate)
         ));
     }
 

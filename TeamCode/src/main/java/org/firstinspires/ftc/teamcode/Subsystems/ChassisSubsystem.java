@@ -73,7 +73,9 @@ public class ChassisSubsystem extends SubsystemBase {
                 )
         ));
     }
-
+    public Pose getPosition(){
+        return follower.getPose();
+    }
     public void initRed(){
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(

@@ -185,13 +185,14 @@ public class RobotConstants {
         public static double INTAKE_FEEDER = 0.12;
 
         //Timers
-        public static long SHOOTER_TIMER = 200;
+        public static long SHOOTER_TIMER = 600;
         public static long HOLD_THE_ARM = 500;
         public static long DRIVE_FORWARD_AUTO = 1500;
         public static long DRIVE_FORWARD_CLOSE_AUTO = 500;
 
 
         //The rest
+        public static double TEST_SHOOTING_SPEED = 700;
         public static   double[] WHITE_RGB = {0, 0, 0};
         public static   double INTAKE_MIN = 100;
         public static double CLOSE_SHOT_THRESHOLD = 1;
@@ -315,7 +316,7 @@ public class RobotConstants {
         //Other coefficients
         public static double POINT_AT_AT_TARGET = 0;
         public static double POINT_AT_AT_TARGET_AUTO = 0;
-        public static   double TA_TO_ANGLE = 0.035;
+        public static   double TA_TO_ANGLE = 0.033;
         public static double TA_TO_SPEED = 0d;
         public static double MAX_ANGLE = 0.15;
         public static double MIN_ANGLE = 0;
