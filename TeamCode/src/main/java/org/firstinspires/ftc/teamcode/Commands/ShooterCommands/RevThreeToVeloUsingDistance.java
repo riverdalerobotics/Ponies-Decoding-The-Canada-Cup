@@ -78,7 +78,7 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
             crackle.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             pop.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
         }
-        double setpoint = 6.65054*distance + 1038.43604;
+        double setpoint = 6.65054*distance + 1018.43604;
         snapPID.setSetPoint(setpoint);
         cracklePID.setSetPoint(setpoint);
         popPID.setSetPoint(setpoint);

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Commands.ChassisCommands;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.seattlesolvers.solverslib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
@@ -13,7 +14,7 @@ public class ResetPosition extends CommandBase {
     @Override
     public void initialize() {
         super.initialize();
-        chassis.getOtos().resetTracking();
+        chassis.getOtos().setPosition(new SparkFunOTOS.Pose2D(0,0,0));
 
     }
 }
