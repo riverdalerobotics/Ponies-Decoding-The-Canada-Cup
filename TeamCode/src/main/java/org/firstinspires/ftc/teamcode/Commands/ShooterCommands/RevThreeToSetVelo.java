@@ -13,8 +13,9 @@ public class RevThreeToSetVelo extends CommandBase {
     ShooterSubsystem snap, crackle, pop;
     boolean autoStop;
     double speed;
-    public RevThreeToSetVelo(ShooterSubsystem snap, ShooterSubsystem crackle, ShooterSubsystem pop, LimelightSubsystem limelight){
+    public RevThreeToSetVelo(ShooterSubsystem snap, ShooterSubsystem crackle, ShooterSubsystem pop, LimelightSubsystem limelight, double speed){
         this.snap = snap;
+        this.speed = speed;
         this.crackle = crackle;
         this.pop = pop;
         this.limelight = limelight;
@@ -62,7 +63,9 @@ public class RevThreeToSetVelo extends CommandBase {
         snapPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
         cracklePID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
         popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-        double setpoint = speed;
+        double setpoint;
+            setpoint = speed;
+
         if(limelight.getLimelightResult().isValid()){
             snap.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             crackle.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);

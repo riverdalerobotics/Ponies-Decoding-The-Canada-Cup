@@ -14,7 +14,7 @@ public class ResetPosition extends CommandBase {
     @Override
     public void initialize() {
         super.initialize();
-        chassis.getOtos().setPosition(new SparkFunOTOS.Pose2D(0,0,0));
+        chassis.setStartPoseOTOS(new SparkFunOTOS.Pose2D(0,0,0));
 
     }
 }

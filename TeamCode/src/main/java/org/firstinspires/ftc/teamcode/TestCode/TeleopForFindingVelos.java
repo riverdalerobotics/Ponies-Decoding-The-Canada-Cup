@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TestCode;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
@@ -51,8 +52,16 @@ public class TeleopForFindingVelos extends CommandOpMode {
     Button shoot, rev, lockOn, spitButton, spinMotor, resetYaw;
     Trigger intakeTrigger, holdArms;
 
+    SparkFunOTOS otos;
+
     @Override
     public void initialize() {
+        chassis = new ChassisSubsystem(hardwareMap);
+
+        otos = chassis.getOtos();
+        otos.setPosition(new SparkFunOTOS.Pose2D(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getX(),
+                RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getY(), RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getHeading()));
+
         limelight = new LimelightSubsystem(hardwareMap);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         driver = new GamepadEx(gamepad1);
@@ -72,8 +81,6 @@ public class TeleopForFindingVelos extends CommandOpMode {
         pop = new ShooterSubsystem(RobotConstants.Hardware.POP, hardwareMap);
         popDefault = new ShooterDefaultCommand(pop, limelight);
         pop.setDefaultCommand(popDefault);
-
-
 
         intake = new IntakeSubsystem(hardwareMap);
         intakeDefault = new IntakeDefaultCommand(intake);

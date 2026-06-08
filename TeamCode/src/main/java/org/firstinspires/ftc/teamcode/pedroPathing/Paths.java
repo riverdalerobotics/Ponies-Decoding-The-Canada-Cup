@@ -59,7 +59,7 @@ public class Paths {
 
                                     new Pose(96.310, 88.287)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(57))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(50))
 
                     .build();
 
@@ -69,15 +69,15 @@ public class Paths {
                                     new Pose(60.643, 52.537),
                                     new Pose(127.613, 58.503)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(57), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(50), Math.toRadians(0))
 
                     .build();
 
             Gate = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(125, 68),
-                                    new Pose(118.933, 62.223),
-                                    new Pose(126, 68)
+                    new BezierCurve(
+                            new Pose(127.613, 58.503),
+                            new Pose(107.835, 64.477),
+                            new Pose(123.756, 68.647)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(270))
 
@@ -85,11 +85,10 @@ public class Paths {
 
             Shoot2ndLine = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(125, 68),
-                                    new Pose(101.568, 63.537),
-                                    new Pose(89.992, 79.553)
+                                    new Pose(123.756, 68.647),
+                                    new Pose(85.818, 81.640)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(56))
+                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(50))
 
                     .build();
 
@@ -99,7 +98,7 @@ public class Paths {
                                     new Pose(95.320, 76.364),
                                     new Pose(127.457, 83.573)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(56), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(50), Math.toRadians(0))
 
                     .build();
 
@@ -109,18 +108,18 @@ public class Paths {
 
                                     new Pose(101.974, 93.773)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(55))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(50))
 
                     .build();
 
             Intake3rdLine = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(101.974, 93.773),
+                                    new Pose(96.757, 97.112),
                                     new Pose(90.345, 51.328),
-                                    new Pose(87.146, 21.831),
-                                    new Pose(134.863, 35.334)
+                                    new Pose(82.464, 34.836),
+                                    new Pose(128.273, 34.814)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(57), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(50), Math.toRadians(0))
 
                     .build();
 
@@ -130,7 +129,7 @@ public class Paths {
 
                                     new Pose(92.792, 83.655)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(55))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(50))
 
                     .build();
 
@@ -140,7 +139,7 @@ public class Paths {
 
                                     new Pose(121.009, 72.939)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(55), Math.toRadians(90))
+                    ).setLinearHeadingInterpolation(Math.toRadians(50), Math.toRadians(90))
 
                     .build();
 

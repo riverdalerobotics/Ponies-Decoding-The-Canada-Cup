@@ -5,6 +5,7 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS.Pose2D;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.seattlesolvers.solverslib.command.MecanumControllerCommand;
@@ -120,6 +121,10 @@ public class ChassisSubsystem extends SubsystemBase {
         } else {
             return null;
         }
+    }
+    public void setStartPoseOTOS(Pose2D pose){
+        otos.resetTracking();
+        otos.setPosition(pose);
     }
     public SparkFunOTOS getOtos(){
         return otos;

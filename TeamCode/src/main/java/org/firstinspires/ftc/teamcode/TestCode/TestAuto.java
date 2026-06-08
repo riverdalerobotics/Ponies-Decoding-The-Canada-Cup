@@ -8,10 +8,12 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
+import com.seattlesolvers.solverslib.command.Robot;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -25,6 +27,7 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeDefaultComma
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.LiftIntakeArms;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVelo;
+import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVeloUsingDistance;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RunNoPIDF;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
 import org.firstinspires.ftc.teamcode.RobotConstants;
@@ -48,9 +51,13 @@ public class TestAuto extends CommandOpMode {
     GamepadEx driver;
     Follower follower;
     TelemetryManager telemetryM;
+    ChassisSubsystem chassis;
     PathChain Path1;
+
     @Override
     public void initialize() {
+
+        chassis = new ChassisSubsystem(hardwareMap);
         follower = Constants.createFollower(hardwareMap);
         blue12BallPath = new Paths.Blue12BallPath(follower);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -72,7 +79,7 @@ public class TestAuto extends CommandOpMode {
         intake = new IntakeSubsystem(hardwareMap);
         intakeDefault = new IntakeDefaultCommand(intake);
         intake.setDefaultCommand(intakeDefault);
-        shootGroup = new SequentialCommandGroup(new RevThreeToVelo(snap, crackle, pop, limelight, true),
+        shootGroup = new SequentialCommandGroup(new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r', true),
                 new ParallelDeadlineGroup(
                         new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
                         new RevThreeToVelo(snap, crackle, pop, limelight),

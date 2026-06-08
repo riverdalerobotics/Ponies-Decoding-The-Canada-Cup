@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Commands.ShooterCommands;
 
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.controller.PIDFController;
 
@@ -13,6 +15,7 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
     LimelightSubsystem limelight;
     ShooterSubsystem snap, crackle, pop;
     ChassisSubsystem chassis;
+    Follower follower;
     boolean autoStop;
     double distance;
     char colour;
@@ -29,11 +32,26 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
         cracklePID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
         popPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
     }
-    public RevThreeToVeloUsingDistance(ShooterSubsystem snap, ShooterSubsystem crackle, ShooterSubsystem pop, LimelightSubsystem limelight, boolean autoStop){
+    public RevThreeToVeloUsingDistance(ShooterSubsystem snap, ShooterSubsystem crackle, ShooterSubsystem pop, LimelightSubsystem limelight, ChassisSubsystem chassis, char colour, boolean autoStop){
         this.snap = snap;
         this.crackle = crackle;
         this.pop = pop;
         this.limelight = limelight;
+        this.chassis = chassis;
+        this.colour = colour;
+        addRequirements(snap, crackle, pop);
+        snapPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
+        cracklePID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
+        popPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
+        this.autoStop = autoStop;
+    }
+    public RevThreeToVeloUsingDistance(ShooterSubsystem snap, ShooterSubsystem crackle, ShooterSubsystem pop, LimelightSubsystem limelight, Follower follower, char colour, boolean autoStop){
+        this.snap = snap;
+        this.crackle = crackle;
+        this.pop = pop;
+        this.limelight = limelight;
+        this.follower = follower;
+        this.colour = colour;
         addRequirements(snap, crackle, pop);
         snapPID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
         cracklePID = new PIDFController(RobotConstants.Tuning.SHOOTER_COEFFICIENTS);
@@ -71,8 +89,14 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
         super.execute();
         snapPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
         cracklePID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
-        popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);;
-        distance = Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - 144, 2) + Math.pow(-chassis.getOtos().getPosition().y - offset, 2))-18;
+        popPID.setSetPoint(RobotConstants.Teleop.FAR_SHOT);
+        if(chassis == null){
+            distance = follower.getPose().distanceFrom(new Pose(144, offset));
+        }
+        else{
+            distance = Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - 144, 2) + Math.pow(-chassis.getOtos().getPosition().y - offset, 2))-18;
+
+        }
         if(limelight.getLimelightResult().isValid()){
             snap.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);
             crackle.setHood(limelight.getLimelightResult().getTa()*RobotConstants.Tuning.TA_TO_ANGLE);

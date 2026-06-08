@@ -158,6 +158,8 @@ public class RobotConstants {
     // === TELEOP CONTROL SETTINGS ===
     @Configurable
     public static   class Teleop {
+        public static   Pose ROBOT_START_POSITION_FROM_AUTO;
+
         // Joystick deadzone
         public static   double DRIVE_DEADZONE = 0.1;
         public static   double TURN_DEADZONE = 0.1;
@@ -311,7 +313,7 @@ public class RobotConstants {
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
         public static   double [] CHASSIS_TOLERANCE = {0.12, 1.55};
-        public static double[] SHOOTER_TOLERANCE = {35, 25};
+        public static double[] SHOOTER_TOLERANCE = {45, 25};
 
         //Other coefficients
         public static double POINT_AT_AT_TARGET = 0;
