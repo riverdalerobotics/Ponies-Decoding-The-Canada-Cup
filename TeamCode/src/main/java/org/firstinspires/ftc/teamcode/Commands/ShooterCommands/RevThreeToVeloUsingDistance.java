@@ -126,6 +126,9 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return autoStop && snapPID.atSetPoint() && cracklePID.atSetPoint() && popPID.atSetPoint();
+        return autoStop &&
+                Math.abs(snap.getSpeed()-snap.setpoint)< RobotConstants.Tuning.SHOOTER_TOLERANCE[1] &&
+                Math.abs(crackle.getSpeed()-crackle.setpoint)< RobotConstants.Tuning.SHOOTER_TOLERANCE[1]&&
+                Math.abs(pop.getSpeed()-pop.setpoint)< RobotConstants.Tuning.SHOOTER_TOLERANCE[1];
     }
 }

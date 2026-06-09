@@ -183,7 +183,7 @@ public class Red12BallAuto extends CommandOpMode {
                     //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
                 ),
                 shootGroup,
-                new FollowPath(follower, path.GoToGate)
+                new FollowPath(follower, path.Leave)
         ));
         RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO = follower.getPose();
     }
