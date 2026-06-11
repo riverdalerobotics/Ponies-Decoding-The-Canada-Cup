@@ -59,8 +59,8 @@ public class TeleopForFindingVelos extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
 
         otos = chassis.getOtos();
-        otos.setPosition(new SparkFunOTOS.Pose2D(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getX(),
-                RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getY(), RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getHeading()));
+        //otos.setPosition(new SparkFunOTOS.Pose2D(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getX(),
+              //  RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getY(), RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO.getHeading()));
 
         limelight = new LimelightSubsystem(hardwareMap);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();

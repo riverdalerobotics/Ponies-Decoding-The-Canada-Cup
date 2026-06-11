@@ -36,10 +36,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.Paths;
 
-@Autonomous(group = "Test", name = "Red 12 Ball")
-public class Red12BallAuto extends CommandOpMode {
+@Autonomous(group = "Test", name = "Blue 12 Ball")
+public class Blue12BallAuto extends CommandOpMode {
     Follower follower;
-    Paths.Red12BallPath path;
+    Paths.Blue12BallPath path;
 
     LimelightSubsystem limelight;
 
@@ -57,6 +57,7 @@ public class Red12BallAuto extends CommandOpMode {
     ChassisSubsystem chassis;
     RobotDefaultCommand chassisDefaultCommand;
 
+
     TelemetryManager telemetryManager;
 
     @Override
@@ -65,15 +66,15 @@ public class Red12BallAuto extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefaultCommand = new RobotDefaultCommand(chassis, telemetryManager);
         chassis.setDefaultCommand(chassisDefaultCommand);
-        chassis.initRed();
+        chassis.initBlue();
 
-        startPose = new Pose(125, 113, Math.toRadians(90));
+        startPose = new Pose(16.5, 113, Math.toRadians(90));
 
         chassis.setStartPoseOTOS(new SparkFunOTOS.Pose2D(startPose.getX(), startPose.getY(), startPose.getHeading()));
 
         follower = Constants.createFollower(hardwareMap);
-        path = new Paths.Red12BallPath(follower);
-        follower.setStartingPose(path.getStartPos());
+        path = new Paths.Blue12BallPath(follower);
+        follower.setStartingPose(startPose);
 
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
 
@@ -96,10 +97,10 @@ public class Red12BallAuto extends CommandOpMode {
 
         /// repeat sequences
         shootGroup = new SequentialCommandGroup(
-                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', true),
+                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', true),
                 new ParallelDeadlineGroup(
                         new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
-                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', false),
+                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', false),
                         new FeedShooter(snap),
                         new FeedShooter(crackle),
                         new FeedShooter(pop)
@@ -113,9 +114,10 @@ public class Red12BallAuto extends CommandOpMode {
                 //shoots preload
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.ShootPreLoad),
-                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r', false)
-                ),
+                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'b', false)
 
+                ),
+                shootGroup,
 
                 //intake far (2nd) line, gate, shoot 2nd line
                 new ParallelDeadlineGroup(
@@ -136,11 +138,11 @@ public class Red12BallAuto extends CommandOpMode {
                 new ParallelDeadlineGroup(
                         new FollowPath(follower, path.Shoot2ndLine),
                         new SequentialCommandGroup(
-                            new ParallelDeadlineGroup(
-                                    new WaitCommand(1000),
-                                    new RunNoPIDF(snap, crackle, pop, -0.3)
-                            ),
-                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'r', false)
+                                new ParallelDeadlineGroup(
+                                        new WaitCommand(1000),
+                                        new RunNoPIDF(snap, crackle, pop, -0.3)
+                                ),
+                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
                         ),
                         new IntakeCommand(intake)
 
@@ -167,7 +169,7 @@ public class Red12BallAuto extends CommandOpMode {
                                         new WaitCommand(1000),
                                         new RunNoPIDF(snap, crackle, pop, -0.3)
                                 ),
-                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'r', false)
+                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
                         ),
                         new IntakeCommand(intake)
 
@@ -193,13 +195,14 @@ public class Red12BallAuto extends CommandOpMode {
                                         new WaitCommand(1000),
                                         new RunNoPIDF(snap, crackle, pop, -0.3)
                                 ),
-                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'r', false)
+                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
                         ),
                         new IntakeCommand(intake)
                 ),
                 shootGroup,
                 new FollowPath(follower, path.Leave)
         ));
+
     }
 
     @Override

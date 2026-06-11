@@ -61,7 +61,7 @@ public class TestAuto extends CommandOpMode {
         follower = Constants.createFollower(hardwareMap);
         blue12BallPath = new Paths.Blue12BallPath(follower);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        follower.setStartingPose(blue12BallPath.getStartPose());
+        //follower.setStartingPose(blue12BallPath.getStartPose());
         limelight = new LimelightSubsystem(hardwareMap);
 
         snap = new ShooterSubsystem(RobotConstants.Hardware.SNAP, hardwareMap);
@@ -93,60 +93,60 @@ public class TestAuto extends CommandOpMode {
 
 
 
-        schedule(new SequentialCommandGroup(
-                new FollowPath(follower, blue12BallPath.ShootFirst3),
-                new RevThreeToVelo(snap, crackle, pop, limelight, true),
-                new ParallelDeadlineGroup(
-                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
-                        new RevThreeToVelo(snap, crackle, pop, limelight),
-                        new FeedShooter(snap),
-                        new FeedShooter(crackle),
-                        new FeedShooter(pop)
-
-                ),
-                new RunNoPIDF(snap, crackle, pop, 0),
-                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt1),
-
-                new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
-                                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt2),
-                                new FollowPath(follower, blue12BallPath.Gate)
-                        ),
-                        new LiftIntakeArms(snap),
-                        new LiftIntakeArms(pop),
-                        new IntakeCommand(intake)
-                ),
-
-                new ParallelDeadlineGroup(
-                        new FollowPath(follower, blue12BallPath.ShootSecond3),
-                        new IntakeCommand(intake)
-                        ),
-                new RevThreeToVelo(snap, crackle, pop, limelight, true),
-                new ParallelDeadlineGroup(
-                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
-                        new RevThreeToVelo(snap, crackle, pop, limelight),
-                        new FeedShooter(snap),
-                        new FeedShooter(crackle),
-                        new FeedShooter(pop)
-                ),
-                new RunNoPIDF(snap, crackle, pop, 0),
-                new ParallelDeadlineGroup(
-
-                    new FollowPath(follower, blue12BallPath.Intake3rdSet),
-                    new IntakeCommand(intake),
-                    new LiftIntakeArms(snap),
-                    new LiftIntakeArms(pop)
-                ),
-                new ParallelDeadlineGroup(
-                        new FollowPath(follower, blue12BallPath.Shoot3rdSet),
-                        new IntakeCommand(intake)
-                ),
-
-                shootGroup
-
-
-                )
-                );
+//        schedule(new SequentialCommandGroup(
+//                new FollowPath(follower, blue12BallPath.ShootPreLoad),
+//                new RevThreeToVelo(snap, crackle, pop, limelight, true),
+//                new ParallelDeadlineGroup(
+//                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
+//                        new RevThreeToVelo(snap, crackle, pop, limelight),
+//                        new FeedShooter(snap),
+//                        new FeedShooter(crackle),
+//                        new FeedShooter(pop)
+//
+//                ),
+//                new RunNoPIDF(snap, crackle, pop, 0),
+//                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt1),
+//
+//                new ParallelDeadlineGroup(
+//                        new SequentialCommandGroup(
+//                                new FollowPath(follower, blue12BallPath.IntakeSecond3Pt2),
+//                                new FollowPath(follower, blue12BallPath.Gate)
+//                        ),
+//                        new LiftIntakeArms(snap),
+//                        new LiftIntakeArms(pop),
+//                        new IntakeCommand(intake)
+//                ),
+//
+//                new ParallelDeadlineGroup(
+//                        new FollowPath(follower, blue12BallPath.ShootSecond3),
+//                        new IntakeCommand(intake)
+//                        ),
+//                new RevThreeToVelo(snap, crackle, pop, limelight, true),
+//                new ParallelDeadlineGroup(
+//                        new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
+//                        new RevThreeToVelo(snap, crackle, pop, limelight),
+//                        new FeedShooter(snap),
+//                        new FeedShooter(crackle),
+//                        new FeedShooter(pop)
+//                ),
+//                new RunNoPIDF(snap, crackle, pop, 0),
+//                new ParallelDeadlineGroup(
+//
+//                    new FollowPath(follower, blue12BallPath.Intake3rdSet),
+//                    new IntakeCommand(intake),
+//                    new LiftIntakeArms(snap),
+//                    new LiftIntakeArms(pop)
+//                ),
+//                new ParallelDeadlineGroup(
+//                        new FollowPath(follower, blue12BallPath.Shoot3rdSet),
+//                        new IntakeCommand(intake)
+//                ),
+//
+//                shootGroup
+//
+//
+//                )
+//                );
     }
 
     @Override

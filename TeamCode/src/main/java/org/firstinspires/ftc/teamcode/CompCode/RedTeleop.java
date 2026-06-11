@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.CompCode;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
+import com.seattlesolvers.solverslib.command.Robot;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.command.button.Button;
 import com.seattlesolvers.solverslib.command.button.GamepadButton;
@@ -48,6 +50,8 @@ public class RedTeleop extends CommandOpMode {
     Button shoot, rev, lockOn, spitButton, spinMotor, resetYaw;
     Trigger intakeTrigger, holdArms;
 
+    /// set position from auto
+
     @Override
     public void initialize() {
         limelight = new LimelightSubsystem(hardwareMap);
@@ -57,6 +61,8 @@ public class RedTeleop extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefault = new RedFieldDefaultCommand(chassis, telemetryM, driver);
         chassis.setDefaultCommand(chassisDefault);
+        chassis.setStartPoseOTOS(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
+
 
         snap = new ShooterSubsystem(RobotConstants.Hardware.SNAP, hardwareMap);
         snapDefault = new ShooterDefaultCommand(snap, limelight);

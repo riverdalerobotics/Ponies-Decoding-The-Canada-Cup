@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.seattlesolvers.solverslib.geometry.Pose2d;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 
 /**
@@ -158,7 +159,7 @@ public class RobotConstants {
     // === TELEOP CONTROL SETTINGS ===
     @Configurable
     public static   class Teleop {
-        public static   Pose ROBOT_START_POSITION_FROM_AUTO;
+        public static SparkFunOTOS.Pose2D ROBOT_START_POSITION_FROM_AUTO;
 
         // Joystick deadzone
         public static   double DRIVE_DEADZONE = 0.1;
