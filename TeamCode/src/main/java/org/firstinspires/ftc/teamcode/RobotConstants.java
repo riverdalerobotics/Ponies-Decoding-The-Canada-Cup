@@ -431,6 +431,16 @@ public class RobotConstants {
         return normalizeAngle(diff);
     }
 
+    public static double getAngleToGoal(Pose pose, char colour){
+        if(colour == 'r'){
+            return Math.atan((144-pose.getY())/(144-pose.getX()));
+        }
+        else{
+            return Math.atan((144-pose.getY())/(pose.getX()));
+        }
+    }
+
+
     // Prevent instantiation
     private RobotConstants() {
         throw new AssertionError("Constants class should not be instantiated");
