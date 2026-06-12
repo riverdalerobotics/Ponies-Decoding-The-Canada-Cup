@@ -40,7 +40,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public double[] rgb(){
         return new double[]{colourSensor.red(), colourSensor.green(), colourSensor.blue()};
     }
-    public char getColour(double[]rgb){
+    public char getColour(){
+        double[]rgb = new double[]{colourSensor.red(), colourSensor.green(), colourSensor.blue()};
         double[] min = RobotConstants.Teleop.WHITE_RGB;
         if(Math.sqrt(Math.pow(min[0]-rgb[0], 2)+Math.pow(min[1]-rgb[1], 2)+Math.pow(min[2]-rgb[2], 2))<RobotConstants.Teleop.WHITE_THRESHOLD){
             return 'n';
@@ -50,6 +51,13 @@ public class ShooterSubsystem extends SubsystemBase {
         }else{
             return 'r';
         }
+    }
+    public boolean isGreen() {
+        int red = colourSensor.red(); //when teh camera scans for RGB, it returns a number value. Purple is red+blue, and green is green (duh). If the green number is more than the others, it should be green.
+        int blue = colourSensor.blue();
+        int green = colourSensor.green();
+
+        return green > red && green > blue; //If it's more green then red/blue(which makes purple), it's green
     }
 
     public void feedShoot(){

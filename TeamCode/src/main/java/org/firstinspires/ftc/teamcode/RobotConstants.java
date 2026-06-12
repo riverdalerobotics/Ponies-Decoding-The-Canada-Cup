@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -159,7 +160,7 @@ public class RobotConstants {
     // === TELEOP CONTROL SETTINGS ===
     @Configurable
     public static   class Teleop {
-        public static SparkFunOTOS.Pose2D ROBOT_START_POSITION_FROM_AUTO;
+        public static Pose ROBOT_START_POSITION_FROM_AUTO;
 
         // Joystick deadzone
         public static   double DRIVE_DEADZONE = 0.1;
@@ -314,7 +315,7 @@ public class RobotConstants {
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
         public static   double [] CHASSIS_TOLERANCE = {0.12, 1.55};
-        public static double[] SHOOTER_TOLERANCE = {45, 25};
+        public static double[] SHOOTER_TOLERANCE = {45, 15};
 
         //Other coefficients
         public static double POINT_AT_AT_TARGET = 0;
@@ -438,6 +439,14 @@ public class RobotConstants {
         }
         else{
             return Math.atan((144-pose.getY())/(pose.getX()));
+        }
+    }
+    public static double getAngleToGoal(Follower follower, char colour){
+        if(colour == 'r'){
+            return Math.atan((144-follower.getPose().getY())/(144-follower.getPose().getX()));
+        }
+        else{
+            return Math.atan((144-follower.getPose().getY())/(follower.getPose().getX()));
         }
     }
 
