@@ -32,7 +32,7 @@ public class Constants {
                     -90)))
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .linearScalar(1.0619549601275917)
+            .linearScalar(100) //1.0619549601275917
             .angularScalar(0.9914974734485172);
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 5, 1);
     public static MecanumConstants driveConstants = new MecanumConstants()
