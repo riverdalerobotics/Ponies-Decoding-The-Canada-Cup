@@ -69,12 +69,11 @@ public class Red12BallAuto extends CommandOpMode {
 
         startPose = new Pose(125, 113, Math.toRadians(90));
 
-        chassis.setStartPoseOTOS(new SparkFunOTOS.Pose2D(startPose.getX(), startPose.getY(), startPose.getHeading()));
+//        chassis.setStartPoseOTOS(new SparkFunOTOS.Pose2D(startPose.getX(), startPose.getY(), startPose.getHeading()));
 
         follower = Constants.createFollower(hardwareMap);
         path = new Paths.Red12BallPath(follower);
         follower.setStartingPose(path.getStartPos());
-
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
 
         limelight = new LimelightSubsystem(hardwareMap);
@@ -115,7 +114,7 @@ public class Red12BallAuto extends CommandOpMode {
                         new FollowPath(follower, path.ShootPreLoad),
                         new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r', false)
                 ),
-
+                shootGroup,
 
                 //intake far (2nd) line, gate, shoot 2nd line
                 new ParallelDeadlineGroup(
@@ -213,7 +212,7 @@ public class Red12BallAuto extends CommandOpMode {
     @Override
     public void end() {
         super.end();
-        RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO = chassis.getOtos().getPosition();
+        RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO = follower.getPose();
         telemetryManager.addData("End Pose", RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
         telemetryManager.update(telemetry);
     }

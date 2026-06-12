@@ -145,6 +145,8 @@ public class TeleopV1 extends CommandOpMode {
     @Override
     public void run(){
         CommandScheduler.getInstance().run();
+        telemetryM.addData("POP is green?", pop.getColour());
+        telemetryM.addData("POP rgb", pop.rgb());
         telemetryM.addData("SNAP shooter speed", snap.getSpeed());
         telemetryM.addData("Yaw", chassis.getOtos().getPosition().h);
         telemetryM.update(telemetry);

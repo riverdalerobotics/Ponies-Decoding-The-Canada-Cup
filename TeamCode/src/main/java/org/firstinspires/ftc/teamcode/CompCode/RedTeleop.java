@@ -61,7 +61,7 @@ public class RedTeleop extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefault = new RedFieldDefaultCommand(chassis, telemetryM, driver);
         chassis.setDefaultCommand(chassisDefault);
-        chassis.setStartPoseOTOS(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
+//        chassis.setStartPoseOTOS(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
 
 
         snap = new ShooterSubsystem(RobotConstants.Hardware.SNAP, hardwareMap);

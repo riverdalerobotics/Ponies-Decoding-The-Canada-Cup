@@ -58,23 +58,23 @@ public class Paths {
             ShootPreLoad = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(125.000, 113.000),
+                                    new Pose(128.000, 110.000),
                                     new Pose(89.347, 94.958),
-                                    new Pose(97.023, 85.853)
+                                    new Pose(91.842, 80.578)//new Pose(97.023, 85.853)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(90), RobotConstants.getAngleToGoal(new Pose(97.023, 85.853), 'r'))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), RobotConstants.getAngleToGoal(new Pose(91.842, 80.578), 'r'))
                     .build();
 
             Intake2ndLine = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(97.023, 85.853),
+                                    new Pose(91.842, 80.578),
                                     new Pose(60.643, 52.537),
                                     new Pose(127.613, 53.503)
                             )
                     )
-                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(new Pose(97.023, 85.853), 'r'), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(follower, 'r'), Math.toRadians(0))
                     .build();
 
             Gate = follower.pathBuilder()
@@ -96,7 +96,7 @@ public class Paths {
                                     new Pose(86.512, 76.091)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(270), RobotConstants.getAngleToGoal(new Pose(86.512, 76.091), 'r'))
+                    .setLinearHeadingInterpolation(Math.toRadians(270), RobotConstants.getAngleToGoal(follower, 'r'))
                     .build();
 
             Intake1stLine = follower.pathBuilder()
@@ -107,7 +107,7 @@ public class Paths {
                                     new Pose(127.457, 83.573)
                             )
                     )
-                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(new Pose(86.512, 76.091), 'r'), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(follower, 'r'), Math.toRadians(0))
                     .build();
 
             Shoot1stLine = follower.pathBuilder()
@@ -117,7 +117,7 @@ public class Paths {
                                     new Pose(103.520, 92.777)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), RobotConstants.getAngleToGoal(new Pose(103.520, 92.777), 'r'))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), RobotConstants.getAngleToGoal(follower, 'r'))
                     .build();
 
             Intake3rdLine = follower.pathBuilder()
@@ -129,7 +129,7 @@ public class Paths {
                                     new Pose(128.794, 35.681)
                             )
                     )
-                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(new Pose(103.520, 92.777), 'r'), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(follower, 'r'), Math.toRadians(0))
                     .build();
 
             Shoot3rdLine = follower.pathBuilder()
@@ -139,7 +139,7 @@ public class Paths {
                                     new Pose(91.842, 80.578)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), RobotConstants.getAngleToGoal(new Pose(91.842, 80.578), 'r'))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), RobotConstants.getAngleToGoal(follower, 'r'))
                     .build();
 
             Leave = follower.pathBuilder()
@@ -149,12 +149,12 @@ public class Paths {
                                     new Pose(119.477, 69.710)
                             )
                     )
-                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(new Pose(91.842, 80.578), 'r'), Math.toRadians(90))
+                    .setLinearHeadingInterpolation(RobotConstants.getAngleToGoal(follower, 'r'), Math.toRadians(90))
                     .build();
 
         }
         public Pose getStartPos(){
-            return new Pose(128.130, 109.661, Math.toRadians(90));
+            return new Pose(128, 110, Math.toRadians(90));
         }
     }
 
