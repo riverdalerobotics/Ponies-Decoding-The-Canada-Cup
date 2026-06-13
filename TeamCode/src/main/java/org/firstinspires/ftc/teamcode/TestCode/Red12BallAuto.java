@@ -28,6 +28,8 @@ import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVelo;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVeloUsingDistance;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RunNoPIDF;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
+import org.firstinspires.ftc.teamcode.CompCode.RedTeleop;
+import org.firstinspires.ftc.teamcode.PositionSingleton;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -202,6 +204,10 @@ public class Red12BallAuto extends CommandOpMode {
                 shootGroup,
                 new FollowPath(follower, path.Leave)
         ));
+        PositionSingleton.PositionInstance().SetPosiiton(new SparkFunOTOS.Pose2D(
+                follower.getPose().getX(),
+                follower.getPose().getY(),
+                follower.getPose().getHeading()));
     }
 
     @Override
@@ -215,7 +221,6 @@ public class Red12BallAuto extends CommandOpMode {
     @Override
     public void end() {
         super.end();
-        //RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO = chassis.getOtos().getPosition();
         telemetryManager.addData("End Pose", RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
         telemetryManager.update(telemetry);
     }

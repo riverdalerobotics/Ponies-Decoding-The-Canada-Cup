@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.CompCode;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -29,6 +30,7 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVeloUsingDistance;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
+import org.firstinspires.ftc.teamcode.PositionSingleton;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -50,6 +52,7 @@ public class RedTeleop extends CommandOpMode {
     Button shoot, rev, lockOn, spitButton, spinMotor, resetYaw;
     Trigger intakeTrigger, holdArms;
 
+
     /// set position from auto
 
     @Override
@@ -61,8 +64,7 @@ public class RedTeleop extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefault = new RedFieldDefaultCommand(chassis, telemetryM, driver);
         chassis.setDefaultCommand(chassisDefault);
-//        chassis.setStartPoseOTOS(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
-
+        chassis.setStartPoseOTOS(PositionSingleton.PositionInstance().GetPosition());
 
         snap = new ShooterSubsystem(RobotConstants.Hardware.SNAP, hardwareMap);
         snapDefault = new ShooterDefaultCommand(snap, limelight);
@@ -75,7 +77,6 @@ public class RedTeleop extends CommandOpMode {
         pop = new ShooterSubsystem(RobotConstants.Hardware.POP, hardwareMap);
         popDefault = new ShooterDefaultCommand(pop, limelight);
         pop.setDefaultCommand(popDefault);
-
 
 
         intake = new IntakeSubsystem(hardwareMap);
