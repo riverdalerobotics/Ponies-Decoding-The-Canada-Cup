@@ -4,7 +4,9 @@ package org.firstinspires.ftc.teamcode;
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
+import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -160,7 +162,7 @@ public class RobotConstants {
     // === TELEOP CONTROL SETTINGS ===
     @Configurable
     public static   class Teleop {
-        public static Pose ROBOT_START_POSITION_FROM_AUTO;
+        public static Pose ROBOT_START_POSITION_FROM_AUTO = new Pose(0,0,0);
 
         // Joystick deadzone
         public static   double DRIVE_DEADZONE = 0.1;
@@ -189,7 +191,7 @@ public class RobotConstants {
         public static double INTAKE_FEEDER = 0.12;
 
         //Timers
-        public static long SHOOTER_TIMER = 600;
+        public static long SHOOTER_TIMER = 500;
         public static long HOLD_THE_ARM = 500;
         public static long DRIVE_FORWARD_AUTO = 1500;
         public static long DRIVE_FORWARD_CLOSE_AUTO = 500;
@@ -310,7 +312,7 @@ public class RobotConstants {
         public static   double[] CHASSIS_PID_COEFFICIENTS_POINT = {0.02, 0.0017, 0.0007};
 
         public static double[] SHOOTER_PIDF_COEFFICIENTS = {0.0023, 0.0075, 0.0005, 0.000435};
-        public static PIDFCoefficients SHOOTER_COEFFICIENTS = new PIDFCoefficients(0.0023, 0.0075, 0.0005, 0.000435);
+        public static PIDFCoefficients SHOOTER_COEFFICIENTS = new PIDFCoefficients(0.003, 0.008, 0.0005, 0.000435);
         public static   double[] CHASSIS_PID_COEFFICIENTS_POINT_AUTO = {-0.032, -0.00185, -0.0007};
         public static   double[] CHASSIS_TURN_PID_COEFFICIENTS = {0.025, 0.0036, 0.0004};
         public static   double[] CHASSIS_DRIVE_PID_COEFFICIENTS = {1.7, 0.1, 0.5};
@@ -423,6 +425,22 @@ public class RobotConstants {
         while (angle > Math.PI) angle -= 2 * Math.PI;
         while (angle < -Math.PI) angle += 2 * Math.PI;
         return angle;
+    }
+
+    public static double metersToInches(double meters){
+        return meters*39.37;
+
+    }
+    public static PathChain goTo90(Follower follower){
+        return follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(follower.getPose().getX(), follower.getPose().getY()),
+
+                                new Pose(follower.getPose().getX(), follower.getPose().getY())
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
+
+                .build();
     }
 
     /**

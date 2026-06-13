@@ -31,8 +31,8 @@ public class BlueFieldDefaultCommand extends CommandBase {
     public void execute() {
         super.execute();
         chassisSubsystem.fieldOriented(
-                gamepadEx.getLeftY(),
                 gamepadEx.getLeftX(),
+                gamepadEx.getLeftY(),
                 -gamepadEx.getRightX());
 
 

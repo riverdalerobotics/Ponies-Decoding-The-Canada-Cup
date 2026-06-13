@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode.CompCode;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.geometry.PedroCoordinates;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -17,8 +21,11 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.gamepad.TriggerReader;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.ChassisLookToAprilTagTeleOp;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FieldDefaultCommand;
+import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.RedChassisLookToAprilTagTeleOp;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.RedFieldDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.ResetPosition;
 import org.firstinspires.ftc.teamcode.Commands.ControllerFeedback;
@@ -34,6 +41,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Paths;
 
 @TeleOp(name = "Red Teleop", group = "Comp Code")
 public class RedTeleop extends CommandOpMode {
@@ -44,16 +53,17 @@ public class RedTeleop extends CommandOpMode {
     RedFieldDefaultCommand chassisDefault;
     ShooterDefaultCommand snapDefault, crackleDefault, popDefault;
     IntakeDefaultCommand intakeDefault;
-
+    Follower follower;
     GamepadEx driver;
     TelemetryManager telemetryM;
     Button shoot, rev, lockOn, spitButton, spinMotor, resetYaw;
     Trigger intakeTrigger, holdArms;
-
+    Boolean hasSeen;
     /// set position from auto
 
     @Override
     public void initialize() {
+        hasSeen = false;
         limelight = new LimelightSubsystem(hardwareMap);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         driver = new GamepadEx(gamepad1);
@@ -61,9 +71,8 @@ public class RedTeleop extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefault = new RedFieldDefaultCommand(chassis, telemetryM, driver);
         chassis.setDefaultCommand(chassisDefault);
-//        chassis.setStartPoseOTOS(RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
 
-
+        follower = Constants.createFollower(hardwareMap);
         snap = new ShooterSubsystem(RobotConstants.Hardware.SNAP, hardwareMap);
         snapDefault = new ShooterDefaultCommand(snap, limelight);
         snap.setDefaultCommand(snapDefault);
@@ -133,7 +142,7 @@ public class RedTeleop extends CommandOpMode {
 
 
         lockOn.whileHeld(
-                new ChassisLookToAprilTagTeleOp(chassis, limelight, telemetryM, driver)
+                new RedChassisLookToAprilTagTeleOp(chassis, limelight, telemetryM, driver)
         );
         intakeTrigger.whileActiveContinuous(
                 new IntakeCommand(intake)
@@ -148,12 +157,26 @@ public class RedTeleop extends CommandOpMode {
     @Override
     public void run(){
         CommandScheduler.getInstance().run();
-//        chassis.getFollower().update();
-        telemetryM.addData("Position", chassis.getOtos().getPosition());
-        telemetryM.addData("Distance to Red Goal", Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - 144, 2) + Math.pow(-chassis.getOtos().getPosition().y - 144, 2))-18);
+        if(limelight.getLimelightResult().isValid()){
+            chassis.getOtos().setPosition(new SparkFunOTOS.Pose2D(getRobotPoseFromCamera().getX(), getRobotPoseFromCamera().getY(),chassis.getOtos().getPosition().h));
+        }
+        chassis.getOtos().setAngularUnit(AngleUnit.DEGREES);
+        telemetryM.addData("Not Modded Camera pos", limelight.getLimelightResult().getBotpose());
+        telemetryM.addData("Distance to goal", Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - 144, 2) + Math.pow(-chassis.getOtos().getPosition().y - 144, 2))-18);
+
+        telemetryM.addData("Modded Camera Position", getRobotPoseFromCamera());
+        telemetryM.addData("OTOS position", chassis.getOtos().getPosition());
         telemetryM.addData("SNAP shooter speed", snap.getSpeed());
-        telemetryM.addData("Yaw", chassis.getOtos().getPosition().h);
         telemetryM.update(telemetry);
 
+    }
+    private Pose getRobotPoseFromCamera() {
+        //Fill this out to get the robot Pose from the camera's output (apply any filters if you need to using follower.getPose() for fusion)
+        //Pedro Pathing has built-in KalmanFilter and LowPassFilter classes you can use for this
+        Pose3D poseFromCamera = limelight.getLimelightResult().getBotpose();
+
+
+        //Use this to convert standard FTC coordinates to standard Pedro Pathing coordinates
+        return new Pose(RobotConstants.metersToInches(poseFromCamera.getPosition().y)+72, RobotConstants.metersToInches(-poseFromCamera.getPosition().x)+72, limelight.getLimelightResult().getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
     }
 }

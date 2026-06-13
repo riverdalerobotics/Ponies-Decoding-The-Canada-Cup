@@ -78,12 +78,7 @@ public class ChassisSubsystem extends SubsystemBase {
         return follower.getPose();
     }
     public void initRed(){
-        imu.initialize(new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                        RevHubOrientationOnRobot.UsbFacingDirection.UP
-                )
-        ));
+        otos.setPosition(new Pose2D(0,0,Math.toRadians(90)));
     }
     public void setStartPos(Pose startPos){
         follower.setStartingPose(startPos);

@@ -94,7 +94,7 @@ public class RevThreeToVeloUsingDistance extends CommandBase {
             distance = follower.getPose().distanceFrom(new Pose(144, offset));
         }
         else{
-            distance = Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - 144, 2) + Math.pow(-chassis.getOtos().getPosition().y - offset, 2))-18;
+            distance = Math.sqrt(Math.pow(chassis.getOtos().getPosition().x - offset, 2) + Math.pow(chassis.getOtos().getPosition().y - 144, 2))-18;
 
         }
         if(limelight.getLimelightResult().isValid()){

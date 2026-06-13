@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants().
             mass(13.335).
-            headingPIDFCoefficients(new PIDFCoefficients(1, 0.0001, 0.01, 0)).
+            headingPIDFCoefficients(new PIDFCoefficients(1.7, 0.01, 0.01, 0.03)).
             forwardZeroPowerAcceleration(-659.5692806276545).
             lateralZeroPowerAcceleration(-0.48801899326893067).
             translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0.0006, 0.01, 0))
@@ -28,13 +28,12 @@ public class Constants {
             ;
     public static OTOSConstants localizerConstants = new OTOSConstants()
             .hardwareMapName(RobotConstants.Hardware.OTOS_SENSOR)
-            .offset(new SparkFunOTOS.Pose2D(-4.5, 5 , Math.toRadians(
-                    -90)))
+            .offset(new SparkFunOTOS.Pose2D(-4.5, 4.8 , Math.toRadians(-90)))
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
             .linearScalar(100) //1.0619549601275917
             .angularScalar(0.9914974734485172);
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 5, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.5, 100, 10, 0.5);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName(RobotConstants.Hardware.FRONT_RIGHT_MOTOR)

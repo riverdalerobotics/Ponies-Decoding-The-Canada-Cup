@@ -31,8 +31,9 @@ public class RedFieldDefaultCommand extends CommandBase {
     public void execute() {
         super.execute();
         chassisSubsystem.fieldOriented(
+                -gamepadEx.getLeftX(),
                 -gamepadEx.getLeftY(),
-                gamepadEx.getLeftX(),
+
                 -gamepadEx.getRightX());
     }
 
