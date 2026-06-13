@@ -6,6 +6,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -36,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVeloUsingDistance;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
+import org.firstinspires.ftc.teamcode.PositionSingleton;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -167,6 +169,7 @@ public class RedTeleop extends CommandOpMode {
         telemetryM.addData("Modded Camera Position", getRobotPoseFromCamera());
         telemetryM.addData("OTOS position", chassis.getOtos().getPosition());
         telemetryM.addData("SNAP shooter speed", snap.getSpeed());
+        telemetryM.addData("Yaw", chassis.getOtos().getPosition().h);
         telemetryM.update(telemetry);
 
     }
