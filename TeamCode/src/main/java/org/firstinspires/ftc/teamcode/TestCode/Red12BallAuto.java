@@ -119,7 +119,7 @@ public class Red12BallAuto extends CommandOpMode {
                                         //shoots preload
                                         new ParallelDeadlineGroup(
                                                 new FollowPath(follower, path.ShootPreLoad),
-                                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r', false)
+                                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', false)
                                         ),
 
                                         shootGroup,

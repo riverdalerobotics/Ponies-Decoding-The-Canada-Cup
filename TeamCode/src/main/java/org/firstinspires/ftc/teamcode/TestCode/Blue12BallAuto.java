@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
+import com.seattlesolvers.solverslib.command.ParallelRaceGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -67,14 +68,11 @@ public class Blue12BallAuto extends CommandOpMode {
         chassisDefaultCommand = new RobotDefaultCommand(chassis, telemetryManager);
         chassis.setDefaultCommand(chassisDefaultCommand);
         chassis.initBlue();
-
-        startPose = new Pose(16.5, 113, Math.toRadians(90));
-
 //        chassis.setStartPoseOTOS(new SparkFunOTOS.Pose2D(startPose.getX(), startPose.getY(), startPose.getHeading()));
 
         follower = Constants.createFollower(hardwareMap);
         path = new Paths.Blue12BallPath(follower);
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(path.getStartPos());
 
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
 
@@ -110,98 +108,106 @@ public class Blue12BallAuto extends CommandOpMode {
         );
         follower.setMaxPower(1);
         /// auto
-        schedule(new SequentialCommandGroup(
-                //shoots preload
-                new ParallelDeadlineGroup(
-                        new FollowPath(follower, path.ShootPreLoad),
-                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'b', false)
+        schedule(
+                new SequentialCommandGroup(
+                        new ParallelRaceGroup(
+                                new SequentialCommandGroup(
+                                    //shoots preload
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.ShootPreLoad),
+                                            new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'b', false) ///change to follower>chassis
 
+                                    ),
+                                    shootGroup,
+
+                                    //intake far (2nd) line, gate, shoot 2nd line
+                                    new ParallelDeadlineGroup(
+                                            new SequentialCommandGroup(
+                                                    new FollowPath(follower, path.Intake2ndLine),
+                                                    new FollowPath(follower, path.Gate)
+                                            ),
+
+                                            new ParallelCommandGroup(
+                                                    new LiftIntakeArms(snap),
+                                                    new LiftIntakeArms(pop),
+                                                    new IntakeCommand(intake),
+                                                    new RunNoPIDF(snap, crackle, pop, -0.3)
+                                            )
+
+                                    ),
+
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.Shoot2ndLine),
+                                            new SequentialCommandGroup(
+                                                    new ParallelDeadlineGroup(
+                                                            new WaitCommand(1000),
+                                                            new RunNoPIDF(snap, crackle, pop, -0.3)
+                                                    ),
+                                                    new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
+                                            ),
+                                            new IntakeCommand(intake)
+
+                                            //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
+                                    ),
+
+                                    shootGroup,
+
+                                    //intake close (1st) line, shoot 1st line
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.Intake1stLine),
+                                            new ParallelCommandGroup(
+                                                    new LiftIntakeArms(snap),
+                                                    new LiftIntakeArms(pop),
+                                                    new IntakeCommand(intake)       ,
+                                                    new RunNoPIDF(snap, crackle, pop, -0.3)
+                                            )
+
+                                    ),
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.Shoot1stLine),
+                                            new SequentialCommandGroup(
+                                                    new ParallelDeadlineGroup(
+                                                            new WaitCommand(1000),
+                                                            new RunNoPIDF(snap, crackle, pop, -0.3)
+                                                    ),
+                                                    new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
+                                            ),
+                                            new IntakeCommand(intake)
+
+
+                                            //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
+                                    ),
+                                    shootGroup,
+
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.Intake3rdLine),
+                                            new ParallelCommandGroup(
+                                                    new LiftIntakeArms(snap),
+                                                    new LiftIntakeArms(pop),
+                                                    new IntakeCommand(intake),
+                                                    new RunNoPIDF(snap, crackle, pop, -0.3)
+                                            )
+                                            //intakeGroup
+                                    ),
+                                    new ParallelDeadlineGroup(
+                                            new FollowPath(follower, path.Shoot3rdLine),
+                                            new SequentialCommandGroup(
+                                                    new ParallelDeadlineGroup(
+                                                            new WaitCommand(1000),
+                                                            new RunNoPIDF(snap, crackle, pop, -0.3)
+                                                    ),
+                                                    new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
+                                            ),
+                                            new IntakeCommand(intake)
+                                    ),
+                                    shootGroup,
+                                    new FollowPath(follower, path.Leave)
+                                ),
+                                new WaitCommand(28000)
+                        ),
+                        new FollowPath(follower, RobotConstants.goTo90(follower))
                 )
-//                shootGroup,
-//
-//                //intake far (2nd) line, gate, shoot 2nd line
-//                new ParallelDeadlineGroup(
-//                        new SequentialCommandGroup(
-//                                new FollowPath(follower, path.Intake2ndLine),
-//                                new FollowPath(follower, path.Gate)
-//                        ),
-//
-//                        new ParallelCommandGroup(
-//                                new LiftIntakeArms(snap),
-//                                new LiftIntakeArms(pop),
-//                                new IntakeCommand(intake),
-//                                new RunNoPIDF(snap, crackle, pop, -0.3)
-//                        )
-//
-//                ),
-//
-//                new ParallelDeadlineGroup(
-//                        new FollowPath(follower, path.Shoot2ndLine),
-//                        new SequentialCommandGroup(
-//                                new ParallelDeadlineGroup(
-//                                        new WaitCommand(1000),
-//                                        new RunNoPIDF(snap, crackle, pop, -0.3)
-//                                ),
-//                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
-//                        ),
-//                        new IntakeCommand(intake)
-//
-//                        //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
-//                ),
-//
-//                shootGroup,
-//
-//                //intake close (1st) line, shoot 1st line
-//                new ParallelDeadlineGroup(
-//                        new FollowPath(follower, path.Intake1stLine),
-//                        new ParallelCommandGroup(
-//                                new LiftIntakeArms(snap),
-//                                new LiftIntakeArms(pop),
-//                                new IntakeCommand(intake)       ,
-//                                new RunNoPIDF(snap, crackle, pop, -0.3)
-//                        )
-//
-//                ),
-//                new ParallelDeadlineGroup(
-//                        new FollowPath(follower, path.Shoot1stLine),
-//                        new SequentialCommandGroup(
-//                                new ParallelDeadlineGroup(
-//                                        new WaitCommand(1000),
-//                                        new RunNoPIDF(snap, crackle, pop, -0.3)
-//                                ),
-//                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
-//                        ),
-//                        new IntakeCommand(intake)
-//
-//
-//                        //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
-//                ),
-//                shootGroup,
-//
-//                new ParallelDeadlineGroup(
-//                        new FollowPath(follower, path.Intake3rdLine),
-//                        new ParallelCommandGroup(
-//                                new LiftIntakeArms(snap),
-//                                new LiftIntakeArms(pop),
-//                                new IntakeCommand(intake),
-//                                new RunNoPIDF(snap, crackle, pop, -0.3)
-//                        )
-//                        //intakeGroup
-//                ),
-//                new ParallelDeadlineGroup(
-//                        new FollowPath(follower, path.Shoot3rdLine),
-//                        new SequentialCommandGroup(
-//                                new ParallelDeadlineGroup(
-//                                        new WaitCommand(1000),
-//                                        new RunNoPIDF(snap, crackle, pop, -0.3)
-//                                ),
-//                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
-//                        ),
-//                        new IntakeCommand(intake)
-//                ),
-//                shootGroup,
-//                new FollowPath(follower, path.Leave)
-        ));
+        );
 
     }
 
@@ -216,7 +222,6 @@ public class Blue12BallAuto extends CommandOpMode {
     @Override
     public void end() {
         super.end();
-        RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO = follower.getPose();
         telemetryManager.addData("End Pose", RobotConstants.Teleop.ROBOT_START_POSITION_FROM_AUTO);
         telemetryManager.update(telemetry);
     }
