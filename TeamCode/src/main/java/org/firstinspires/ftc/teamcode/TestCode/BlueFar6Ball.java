@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.CompCode;
+package org.firstinspires.ftc.teamcode.TestCode;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
-import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
@@ -27,9 +26,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.Paths;
 
-public class RedFar6Ball extends CommandOpMode {
+@Autonomous(group = "Test", name = "Blue 6 Far Ball")
+public class BlueFar6Ball extends CommandOpMode {
     Follower follower;
-    Paths.RedFar6BallPath path;
+    Paths.BlueFar6BallPath path;
 
     LimelightSubsystem limelight;
 
@@ -40,9 +40,6 @@ public class RedFar6Ball extends CommandOpMode {
     IntakeDefaultCommand intakeDefault;
 
     SequentialCommandGroup shootGroup;
-    ParallelCommandGroup intakeGroup;
-
-    Pose startPose;
 
     ChassisSubsystem chassis;
     RobotDefaultCommand chassisDefaultCommand;
@@ -54,10 +51,10 @@ public class RedFar6Ball extends CommandOpMode {
         chassis = new ChassisSubsystem(hardwareMap);
         chassisDefaultCommand = new RobotDefaultCommand(chassis, telemetryManager);
         chassis.setDefaultCommand(chassisDefaultCommand);
-        chassis.initRed();
+        chassis.initBlue();
 
         follower = Constants.createFollower(hardwareMap);
-        path = new Paths.RedFar6BallPath(follower);
+        path = new Paths.BlueFar6BallPath(follower);
         follower.setStartingPose(path.getStartPos());
 
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -81,10 +78,10 @@ public class RedFar6Ball extends CommandOpMode {
 
         /// repeat sequences
         shootGroup = new SequentialCommandGroup(
-                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', true),
+                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', true),
                 new ParallelDeadlineGroup(
                         new WaitCommand(RobotConstants.Teleop.SHOOTER_TIMER),
-                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', false),
+                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', false),
                         new FeedShooter(snap),
                         new FeedShooter(crackle),
                         new FeedShooter(pop)
@@ -95,35 +92,37 @@ public class RedFar6Ball extends CommandOpMode {
         follower.setMaxPower(1);
 
         schedule(
+                new SequentialCommandGroup(
+                        new ParallelDeadlineGroup(
+                                new FollowPath(follower, path.ShootPreLoad),
+                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,  'b', false)
+                        ),
+                        shootGroup,
+
+                        new ParallelDeadlineGroup(
+                                new FollowPath(follower, path.Intake3rdLine),
+                                new LiftIntakeArms(snap),
+                                new LiftIntakeArms(pop),
+                                new IntakeCommand(intake),
+                                new RunNoPIDF(snap, crackle, pop, -0.3)
+                        ),
+
+                        new ParallelDeadlineGroup(
+                                new FollowPath(follower, path.Shoot3rdLine),
                                 new SequentialCommandGroup(
                                         new ParallelDeadlineGroup(
-                                                new FollowPath(follower, path.ShootPreLoad),
-                                                new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,  'r', false)
-                                        ),
-                                        shootGroup,
-
-                                        new ParallelDeadlineGroup(
-                                                new FollowPath(follower, path.Intake3rdLine),
-                                                new LiftIntakeArms(snap),
-                                                new LiftIntakeArms(pop),
-                                                new IntakeCommand(intake),
+                                                new WaitCommand(1000),
                                                 new RunNoPIDF(snap, crackle, pop, -0.3)
                                         ),
+                                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', false )
+                                ),
+                                new IntakeCommand(intake)
+                        ),
 
-                                        new ParallelDeadlineGroup(
-                                                new FollowPath(follower, path.Shoot3rdLine),
-                                                new SequentialCommandGroup(
-                                                        new ParallelDeadlineGroup(
-                                                                new WaitCommand(1000),
-                                                                new RunNoPIDF(snap, crackle, pop, -0.3)
-                                                        ),
-                                                        new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'r', false )
-                                                ),
-                                                new IntakeCommand(intake)
-                                        ),
-                                        shootGroup,
-                                        new FollowPath(follower, path.Leave)
-                                )
+                        shootGroup,
+
+                        new FollowPath(follower, path.Leave)
+                )
         );
 
     }
