@@ -370,11 +370,11 @@ public class Paths {
                     .addPath(
                             new BezierCurve(
                                     new Pose(16.500, 39.000),
-                                    new Pose(36.876, 40.257),
-                                    new Pose(52.500, 54.000)
+                                    new Pose(34.621, 35.749),
+                                    new Pose(56.500, 20.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(121.4))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
                     .build();
         }
         public Pose getStartPos(){
