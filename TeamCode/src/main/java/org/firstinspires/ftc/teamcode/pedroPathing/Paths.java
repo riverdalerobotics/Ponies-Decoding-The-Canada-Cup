@@ -317,6 +317,49 @@ public class Paths {
 
     }
 
+    public static class BlueFar6BallPath {
+        public PathChain Intake3rdLine;
+        public PathChain ShootPreLoad;
+        public PathChain Shoot3rdLine;
+
+        public BlueFar6BallPath(Follower follower) {
+            Intake3rdLine = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(56.500, 20.000),
+                                    new Pose(54.088, 25.985),
+                                    new Pose(16.500, 39.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(116), Math.toRadians(180))
+                    .build();
+
+            ShootPreLoad = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(56.500, 9.000),
+                                    new Pose(56.500, 20.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(116))
+                    .build();
+
+            Shoot3rdLine = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(16.500, 39.000),
+                                    new Pose(36.876, 40.257),
+                                    new Pose(52.500, 54.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(121.4))
+                    .build();
+        }
+        public Pose getStartPos(){
+            return new Pose (56.500, 20.000, Math.toRadians(90));
+        }
+    }
+
     public static class TestPath {
         public PathChain Path1;
 
