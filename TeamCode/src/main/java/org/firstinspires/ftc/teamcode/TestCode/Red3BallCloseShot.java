@@ -1,17 +1,21 @@
 package org.firstinspires.ftc.teamcode.TestCode;
 
+import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.ParallelDeadlineGroup;
+import com.seattlesolvers.solverslib.command.Robot;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.FollowPath;
+import org.firstinspires.ftc.teamcode.Commands.ChassisCommands.RobotDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.FeedShooter;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVelo;
+import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.RevThreeToVeloUsingDistance;
 import org.firstinspires.ftc.teamcode.Commands.ShooterCommands.ShooterDefaultCommand;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.ChassisSubsystem;
@@ -34,14 +38,20 @@ public class Red3BallCloseShot extends CommandOpMode {
     IntakeDefaultCommand intakeDefault;
 
     SequentialCommandGroup shootGroup;
-    ParallelCommandGroup intakeGroup;
 
-    Pose startPose;
+    ChassisSubsystem chassis;
+    RobotDefaultCommand chassisDefault;
+
+    TelemetryManager telemetryManager;
 
     @Override
     public void initialize(){
         follower = Constants.createFollower(hardwareMap);
         path = new Paths.Red3BallCloseShotPath(follower);
+
+        chassis = new ChassisSubsystem(hardwareMap);
+        chassisDefault = new RobotDefaultCommand(chassis, telemetryManager);
+        chassis.initRed();
 
         limelight = new LimelightSubsystem(hardwareMap);
 
@@ -75,10 +85,10 @@ public class Red3BallCloseShot extends CommandOpMode {
                 new SequentialCommandGroup(
                     new ParallelDeadlineGroup(
                             new FollowPath(follower, path.ShootPreLoad),
-                            new RevThreeToVelo(snap, crackle, pop, limelight)
+                            new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r', false)
                     ),
-                    shootGroup
-
+                    shootGroup,
+                    new FollowPath(follower, RobotConstants.goTo90(follower))
                 )
         );
     }

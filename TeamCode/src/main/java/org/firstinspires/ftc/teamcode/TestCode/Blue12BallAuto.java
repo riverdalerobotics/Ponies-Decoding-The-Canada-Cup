@@ -115,7 +115,7 @@ public class Blue12BallAuto extends CommandOpMode {
                                     //shoots preload
                                     new ParallelDeadlineGroup(
                                             new FollowPath(follower, path.ShootPreLoad),
-                                            new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'b', false) ///change to follower>chassis
+                                            new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower, 'b', false) ///change to follower>chassis
 
                                     ),
                                     shootGroup,
@@ -173,9 +173,6 @@ public class Blue12BallAuto extends CommandOpMode {
                                                     new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, follower,'b', false)
                                             ),
                                             new IntakeCommand(intake)
-
-
-                                            //new RevThreeToVeloUsingDistance(snap, crackle, pop, limelight, chassis, 'r')
                                     ),
                                     shootGroup,
 
@@ -208,7 +205,6 @@ public class Blue12BallAuto extends CommandOpMode {
                         new FollowPath(follower, RobotConstants.goTo90(follower))
                 )
         );
-
     }
 
     @Override

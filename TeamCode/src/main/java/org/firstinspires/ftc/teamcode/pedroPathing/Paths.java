@@ -40,6 +40,28 @@ public class Paths {
                     .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(55))
                     .build();
         }
+        public Pose getStartPos(){
+            return new Pose(119.141,118.113, Math.toRadians(90));
+        }
+    }
+
+    public static class Blue3BallCloseShotPath {
+        public PathChain ShootPreLoad;
+
+        public Blue3BallCloseShotPath(Follower follower) {
+            ShootPreLoad = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(22.359, 118.113),
+                                    new Pose(31.723, 108.749)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(125))
+                    .build();
+        }
+        public Pose getStartPos(){
+            return new Pose(22.359, 118.113, Math.toRadians(90));
+        }
     }
 
     public static class Red12BallPath {
