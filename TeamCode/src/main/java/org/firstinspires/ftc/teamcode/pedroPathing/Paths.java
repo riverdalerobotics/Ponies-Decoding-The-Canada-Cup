@@ -33,7 +33,7 @@ public class Paths {
             ShootPreLoad = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(119.141, 118.113),
+                                    new Pose(125, 106.5),
                                     new Pose(109.777, 108.749)
                             )
                     )
@@ -41,7 +41,7 @@ public class Paths {
                     .build();
         }
         public Pose getStartPos(){
-            return new Pose(119.141,118.113, Math.toRadians(90));
+            return new Pose(125,106.5, Math.toRadians(90));
         }
     }
 
@@ -52,7 +52,7 @@ public class Paths {
             ShootPreLoad = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(22.359, 118.113),
+                                    new Pose(16, 106.5),
                                     new Pose(31.723, 108.749)
                             )
                     )
@@ -60,7 +60,7 @@ public class Paths {
                     .build();
         }
         public Pose getStartPos(){
-            return new Pose(22.359, 118.113, Math.toRadians(90));
+            return new Pose(16, 106.5, Math.toRadians(90));
         }
     }
 
